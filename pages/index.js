@@ -3,15 +3,16 @@ export default function Home() {
     <main className="py-10 px-6">
       <h2 className="text-center font-jost text-neutral-600">
         Inventory management system
-        <span className="bg-red-400 text-white px-2 rounded-sm ml-2 font-medium">
-          Beta
-        </span>
+        <span className="bg-red-400 text-white px-2 rounded-sm ml-2">Beta</span>
       </h2>
       <h1 className="text-center text-4xl font-semibold mt-7 font-lexend">
         Kalamkari
       </h1>
 
-      <form action="" className="p-4 bg-neutral-50 mt-10 rounded-md">
+      <form
+        action=""
+        className="p-4 lg:p-5 bg-neutral-50 mt-10 rounded-md lg:rounded-none max-w-md lg:mx-auto"
+      >
         <div>
           <label
             className="font-jost text-sm text-neutral-700 tracking-wide block"
@@ -49,7 +50,7 @@ export default function Home() {
           </label>
         </div>
         <div className="mt-8">
-          <button className="h-12 text-center w-full bg-blue-500 text-white font-jost rounded">
+          <button className="h-12 text-center w-full bg-blue-500 hover:bg-blue-600 text-white font-jost rounded">
             Sign In
           </button>
         </div>
