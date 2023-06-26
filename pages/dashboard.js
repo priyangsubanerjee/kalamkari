@@ -1,22 +1,22 @@
+import Navbar from "@/components/Navbar";
 import GlobalStates from "@/context/GlobalStateContext";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 function Dashboard() {
-  const { user, setUser } = useContext(GlobalStates);
+  const { user, setUser, handleLogin } = useContext(GlobalStates);
+  useEffect(() => {
+    (async () => {
+      const savedUser = JSON.parse(window.atob(localStorage.getItem("user")));
+      const res = await handleLogin(savedUser.email, savedUser.password);
+      console.log(res);
+      if (res.success) {
+        setUser(res.data);
+      }
+    })();
+  }, []);
   return (
     <div>
-      <div className="flex items-center h-20 bg-neutral-50 px-6">
-        <div className="flex items-center">
-          <button className="h-12 w-12 flex items-center justify-center bg-neutral-200">
-            <iconify-icon
-              height="20"
-              width="20"
-              icon="lucide:menu"
-            ></iconify-icon>
-          </button>
-          <h1>Dashboard</h1>
-        </div>
-      </div>
+      <Navbar />
     </div>
   );
 }
