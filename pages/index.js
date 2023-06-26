@@ -19,7 +19,7 @@ function Login() {
         const savedUser = JSON.parse(window.atob(localStorage.getItem("user")));
         const res = await handleLogin(savedUser.email, savedUser.password);
         if (res.success) {
-          window.location.href = "/dashboard";
+          window.location.href = "/inventory";
         }
       }
     })();
@@ -69,7 +69,7 @@ function Login() {
                     "user",
                     window.btoa(JSON.stringify(res.data))
                   );
-                  //window.location.href = "/dashboard";
+                  window.location.href = "/inventory";
                 }
               }}
               className="block w-full mt-8"

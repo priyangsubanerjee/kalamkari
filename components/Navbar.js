@@ -1,8 +1,11 @@
 import GlobalStates from "@/context/GlobalStateContext";
+import navmenu from "@/static/navmenu";
+import { useRouter } from "next/router";
 import React, { useContext } from "react";
 
 function Navbar() {
   const { user } = useContext(GlobalStates);
+  const router = useRouter();
   return (
     <nav>
       <div className="border-b flex items-center px-6 lg:px-24 h-16 lg:h-20">
@@ -13,11 +16,22 @@ function Navbar() {
           </p>
         </div>
         {user != null && user != false && (
-          <ul className="hidden text-sm lg:flex items-center space-x-10 ml-20">
-            <li className="bg-sky-100 px-5 py-1 rounded-full">Inventory</li>
-            <li>Orders</li>
-            <li>Returns</li>
-            <li>Sales</li>
+          <ul className="hidden text-sm lg:flex items-center space-x-4 ml-20">
+            {navmenu.map((item, i) => {
+              return (
+                <li
+                  key={i}
+                  className={`cursor-pointer px-4 py-1 rounded-full flex items-center space-x-2 ${
+                    router.pathname == item.path
+                      ? "bg-sky-100"
+                      : "bg-sky-100/0 hover:bg-sky-100/50"
+                  }`}
+                >
+                  {item.icon}
+                  <span>{item.name}</span>
+                </li>
+              );
+            })}
           </ul>
         )}
         <button className="ml-auto">
@@ -38,11 +52,22 @@ function Navbar() {
         </button>
       </div>
       {user != null && user != false && (
-        <ul className="lg:hidden text-sm flex items-center space-x-7 px-6 py-4 border-b overflow-auto shrink-0">
-          <li className="bg-sky-100 px-5 py-1 rounded-full">Inventory</li>
-          <li>Orders</li>
-          <li>Returns</li>
-          <li>Sales</li>
+        <ul className="lg:hidden text-sm flex items-center space-x-2 px-6 py-4 border-b overflow-auto shrink-0">
+          {navmenu.map((item, i) => {
+            return (
+              <li
+                key={i}
+                className={`cursor-pointer px-4 py-1 rounded-full flex items-center space-x-2 ${
+                  router.pathname == item.path
+                    ? "bg-sky-100"
+                    : "bg-sky-100/0 hover:bg-sky-100/50"
+                }`}
+              >
+                {item.icon}
+                <span>{item.name}</span>
+              </li>
+            );
+          })}
         </ul>
       )}
     </nav>
