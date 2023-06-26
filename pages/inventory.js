@@ -35,7 +35,7 @@ function Dashboard() {
           <div className="p-3">
             <h1 className="text-base font-bold">₹9000</h1>
             <h2 className="text-sm mt-1">Sarees (साड़ी)</h2>
-            <div className="mt-4 grid grid-cols-3">
+            <div className="mt-4 grid grid-cols-3 text-xs">
               <div className="flex items-center">
                 <span className="text-blue-600 mt-1">
                   <iconify-icon icon="bi:box"></iconify-icon>
