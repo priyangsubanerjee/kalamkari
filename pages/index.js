@@ -68,7 +68,7 @@ function Login() {
                 <button className="px-5 text-sm py-3 text-neutral-700 rounded-md">
                   Forgot password
                 </button>
-                <button className="px-5 text-sm py-3 bg-blue-500 text-white rounded">
+                <button className="px-5 text-sm py-3 bg-blue-500 hover:bg-blue-600 text-white rounded">
                   Proceed to login
                 </button>
               </div>
