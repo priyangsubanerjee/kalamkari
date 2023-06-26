@@ -89,7 +89,7 @@ function Dashboard() {
               </div>
             </div>
             <div className="fixed bottom-0 inset-x-0 p-4 border-t bg-neutral-50">
-              <button className="w-full h-14 bg-black rounded-md text-white">
+              <button className="w-full h-12 bg-black rounded-md text-white">
                 Add product
               </button>
             </div>
