@@ -13,7 +13,7 @@ function Navbar() {
           </p>
         </div>
         {user != null && user != false && (
-          <ul className="hidden lg:flex items-center space-x-10 ml-20">
+          <ul className="hidden text-sm lg:flex items-center space-x-10 ml-20">
             <li className="bg-sky-100 px-5 py-1 rounded-full">Inventory</li>
             <li>Orders</li>
             <li>Returns</li>
@@ -38,7 +38,7 @@ function Navbar() {
         </button>
       </div>
       {user != null && user != false && (
-        <ul className="lg:hidden flex items-center space-x-7 px-6 py-4 border-b overflow-auto shrink-0">
+        <ul className="lg:hidden text-sm flex items-center space-x-7 px-6 py-4 border-b overflow-auto shrink-0">
           <li className="bg-sky-100 px-5 py-1 rounded-full">Inventory</li>
           <li>Orders</li>
           <li>Returns</li>

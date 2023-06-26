@@ -61,15 +61,15 @@ function Login() {
               Use authorized credentials only.
             </p>
             <form
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
-                const res = handleLogin(options.email, options.password);
+                const res = await handleLogin(options.email, options.password);
                 if (res.success) {
                   localStorage.setItem(
                     "user",
-                    window.btoa(JSON.stringify(res.user))
+                    window.btoa(JSON.stringify(res.data))
                   );
-                  window.location.href = "/dashboard";
+                  //window.location.href = "/dashboard";
                 }
               }}
               className="block w-full mt-8"

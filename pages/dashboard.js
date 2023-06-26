@@ -12,6 +12,9 @@ function Dashboard() {
         const res = await handleLogin(savedUser.email, savedUser.password);
         if (res.success) {
           setUser(res.data);
+        } else {
+          localStorage.removeItem("user");
+          window.location.href = "/login";
         }
       })();
     }
