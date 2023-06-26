@@ -46,7 +46,7 @@ function Dashboard() {
                 <span className="text-sm text-red-700">₹4000</span>
               </div>
               <div className="flex items-center">
-                <span className="text-green-500">
+                <span className="text-green-600">
                   <iconify-icon icon="bi:caret-up-fill"></iconify-icon>
                 </span>
                 <span className="ml-2 text-sm">33%</span>
