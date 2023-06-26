@@ -5,9 +5,9 @@ function Navbar() {
   const { user } = useContext(GlobalStates);
   return (
     <nav>
-      <div className="border-b font-jost flex items-center px-6 lg:px-24 h-16 lg:h-20">
+      <div className="border-b flex items-center px-6 lg:px-24 h-16 lg:h-20">
         <div>
-          <h1 className="text-2xl lg:text-2xl">Kalamkari</h1>
+          <h1 className="text-2xl lg:text-2xl font-jost">Kalamkari</h1>
           <p className="text-sm mt-1 text-neutral-500 hidden lg:block">
             Inventory management system
           </p>

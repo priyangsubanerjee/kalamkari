@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @next/next/no-img-element */
 import Navbar from "@/components/Navbar";
 import GlobalStates from "@/context/GlobalStateContext";
@@ -14,11 +15,12 @@ function Login() {
 
   useEffect(() => {
     (async () => {
-      const savedUser = JSON.parse(window.atob(localStorage.getItem("user")));
-      const res = await handleLogin(savedUser.email, savedUser.password);
-      console.log(res);
-      if (res.success) {
-        window.location.href = "/dashboard";
+      if (localStorage.getItem("user")) {
+        const savedUser = JSON.parse(window.atob(localStorage.getItem("user")));
+        const res = await handleLogin(savedUser.email, savedUser.password);
+        if (res.success) {
+          window.location.href = "/dashboard";
+        }
       }
     })();
   }, []);
@@ -82,7 +84,7 @@ function Login() {
                   onChange={(e) =>
                     setOptions({ ...options, email: e.target.value })
                   }
-                  className="block bg-white border w-full mt-2 px-6 py-4 rounded-md text-sm text-neutral-700"
+                  className="block bg-white border w-full mt-2 px-6 py-4 rounded-md text-neutral-700"
                   placeholder="abc@example.com"
                   name=""
                   id=""
@@ -98,7 +100,7 @@ function Login() {
                     setOptions({ ...options, password: e.target.value })
                   }
                   type="password"
-                  className="block bg-white border w-full mt-2 px-6 py-4 rounded-md text-sm text-neutral-700 tracking-wider"
+                  className="block bg-white border w-full mt-2 px-6 py-4 rounded-md text-neutral-700 tracking-wider"
                   placeholder="••••••"
                   name=""
                   id=""
