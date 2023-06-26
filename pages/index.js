@@ -1,65 +1,56 @@
-export default function Home() {
+/* eslint-disable @next/next/no-img-element */
+import Navbar from "@/components/Navbar";
+import React from "react";
+
+function Login() {
   return (
-    <main className="py-10 px-6">
-      <h2 className="text-center font-jost text-neutral-600">
-        Inventory management system
-        <span className="bg-red-400 text-white px-2 rounded-sm ml-2">Beta</span>
-      </h2>
-      <h1 className="text-center text-4xl font-semibold mt-7 font-lexend">
-        Kalamkari
-      </h1>
+    <div>
+      <Navbar />
+      <div className="p-3 lg:p-20 font-jost">
+        <form
+          action=""
+          className="bg-neutral-50 w-full lg:max-w-[550px] mx-auto p-5 lg:p-10"
+        >
+          <p className="text-sm text-neutral-700">Authentication required</p>
+          <h2 className="text-2xl font-semibold mt-3">Admin dashboard</h2>
 
-      <form
-        action=""
-        className="p-4 lg:p-5 bg-neutral-50 mt-10 rounded-md lg:rounded-none max-w-md lg:mx-auto"
-      >
-        <div>
-          <label
-            className="font-jost text-sm text-neutral-700 tracking-wide block"
-            htmlFor=""
-          >
-            Registered email
-          </label>
-          <input
-            type="text"
-            className="block w-full border bg-white mt-4 px-4 h-14"
-            placeholder="abc@example.com"
-            name=""
-            id=""
-          />
-        </div>
-        <div className="mt-7">
-          <label
-            className="font-jost text-sm text-neutral-700 tracking-wide block"
-            htmlFor=""
-          >
-            Account password
-          </label>
-          <input
-            type="password"
-            className="block w-full border bg-white mt-4 px-4 h-14"
-            placeholder="••••"
-            name=""
-            id=""
-          />
-        </div>
-        <div className="mt-8 flex items-center text-sm space-x-2">
-          <input type="checkbox" name="" id="" />
-          <label className="text-neutral-700 font-jost" htmlFor="">
-            Remember me
-          </label>
-        </div>
-        <div className="mt-8">
-          <button className="h-12 text-center w-full bg-blue-500 hover:bg-blue-600 text-white font-jost rounded">
-            Sign In
-          </button>
-        </div>
-      </form>
+          <div className="block w-full mt-8">
+            <label htmlFor="" className="block text-neutral-500">
+              Email
+            </label>
+            <input
+              type="text"
+              className="bg-white border h-14 w-full rounded mt-2"
+              name=""
+              id=""
+            />
+          </div>
+          <div className="block w-full mt-5">
+            <label htmlFor="" className="block text-neutral-500">
+              Password
+            </label>
+            <input
+              type="text"
+              className="bg-white border h-14 w-full rounded mt-2"
+              name=""
+              id=""
+            />
+          </div>
 
-      <div className="flex items-center justify-center mt-10 space-x-2 text-sm">
-        <iconify-icon height="20" width="20" icon="bx:support"></iconify-icon>
-        <span className="text-neutral-800">Need help? Contact admin</span>
+          <div className="flex items-center mt-6 space-x-3">
+            <input type="checkbox" name="" id="" />
+            <label htmlFor="">Remember me</label>
+          </div>
+
+          <div className="mt-7">
+            <button className="bg-neutral-800 w-full text-white px-5 h-14 rounded">
+              <span>Login</span>
+            </button>
+          </div>
+        </form>
       </div>
-    </main>
+    </div>
   );
 }
+
+export default Login;
