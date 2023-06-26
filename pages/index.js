@@ -64,9 +64,9 @@ function Login() {
                   id=""
                 />
               </div>
-              <div className="mt-7 flex justify-end space-x-5">
-                <button className="px-5 text-sm py-3 text-neutral-700 rounded-md">
-                  Forgot password
+              <div className="mt-7 flex justify-between space-x-5">
+                <button className="text-sm py-3 text-neutral-700 rounded-md">
+                  Need help?
                 </button>
                 <button className="px-5 text-sm py-3 bg-blue-500 hover:bg-blue-600 text-white rounded">
                   Proceed to login
