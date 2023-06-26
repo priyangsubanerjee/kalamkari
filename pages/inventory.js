@@ -38,12 +38,8 @@ function Dashboard() {
           </div>
           <div className="py-2 mb-1">
             <div className="flex items-center justify-center">
-              <button className="px-5 pt-1 rounded-full bg-neutral-100 w-[90%]">
-                <iconify-icon
-                  height="20"
-                  width="20"
-                  icon="fluent:edit-20-regular"
-                ></iconify-icon>
+              <button className="px-5 pt-2 pb-1 rounded-full bg-neutral-100 w-[90%]">
+                <iconify-icon icon="solar:eye-outline"></iconify-icon>
               </button>
             </div>
           </div>
