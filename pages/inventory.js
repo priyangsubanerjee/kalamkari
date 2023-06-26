@@ -29,9 +29,9 @@ function Dashboard() {
             <h1 className="text-base font-bold">₹9000</h1>
             <h2 className="text-sm mt-1">Sarees (साड़ी)</h2>
           </div>
-          <div className="mt-2 grid grid-cols-2">
+          <div className="grid grid-cols-2 py-2">
             <div className="flex items-center justify-center">
-              <button className="px-5 py-1 rounded-full bg-neutral-100 w-fit">
+              <button className="px-5 pt-1 rounded-full bg-neutral-100 w-[80%]">
                 <iconify-icon
                   height="20"
                   width="20"
@@ -39,13 +39,15 @@ function Dashboard() {
                 ></iconify-icon>
               </button>
             </div>
-            <button className="px-5 py-3 bg-red-100 w-full">
-              <iconify-icon
-                height="20"
-                width="20"
-                icon="mdi-light:delete"
-              ></iconify-icon>
-            </button>
+            <div className="flex items-center justify-center">
+              <button className="px-5 pt-1 rounded-full bg-red-100 w-[80%]">
+                <iconify-icon
+                  height="20"
+                  width="20"
+                  icon="mdi-light:delete"
+                ></iconify-icon>
+              </button>
+            </div>
           </div>
         </div>
       </div>
