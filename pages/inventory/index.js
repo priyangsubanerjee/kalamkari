@@ -138,7 +138,7 @@ function Dashboard() {
       </>
       {addmodal && (
         <div className="fixed inset-0 h-full w-full bg-black/50 flex justify-end">
-          <div className="w-full lg:w-[500px] bg-white h-full overflow-auto pb-20">
+          <div className="w-full lg:w-[500px] bg-white h-full overflow-auto pb-8">
             <div className="p-8">
               <div className="flex items-center justify-between">
                 <h2 className="text-xl lg:text-2xl font-jost">
