@@ -6,7 +6,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 
 function Dashboard() {
   const { user, setUser, handleLogin } = useContext(GlobalStates);
-  const [addmodal, setAddmodal] = useState(true);
+  const [addmodal, setAddmodal] = useState(false);
   const inputImageRef = useRef(null);
   const [optProduct, setOptProduct] = useState({
     images: [],
@@ -102,10 +102,10 @@ function Dashboard() {
                   onClick={() => setAddmodal(true)}
                   className="flex lg:hidden fixed items-center bottom-0 inset-x-0 p-4 pb-8 border-t bg-neutral-50 z-10"
                 >
-                  <div className="flex items-center space-x-1">
+                  <div className="flex items-center space-x-1 text-neutral-700">
                     <iconify-icon
-                      height="30"
-                      width="30"
+                      height="24"
+                      width="24"
                       icon="system-uicons:box"
                     ></iconify-icon>
                     <span className="text-sm">16 products</span>
@@ -197,7 +197,7 @@ function Dashboard() {
                   return (
                     <div
                       key={index}
-                      className="shrink-0 rounded overflow-hidden h-32 w-32 p-3 flex items-center justify-center bg-neutral-50 hover:bg-neutral-100 cursor-pointer relative"
+                      className="shrink-0 rounded overflow-hidden h-32 w-32 flex items-center justify-center bg-neutral-50 hover:bg-neutral-100 cursor-pointer relative"
                     >
                       <img
                         className="w-full h-full object-cover"
