@@ -5,6 +5,7 @@ import GlobalStates from "@/context/GlobalStateContext";
 import connectDatabase from "@/db/connect";
 import product from "@/db/product";
 import { uploadFileArray } from "@/helper/asset";
+import Head from "next/head";
 import React, { useContext, useEffect, useRef, useState } from "react";
 
 function Dashboard() {
@@ -81,6 +82,9 @@ function Dashboard() {
   console.log(products);
   return (
     <div>
+      <Head>
+        <title>Kalamkari - Inventory management system</title>
+      </Head>
       <Navbar />
       <>
         {user !== null && user !== false && (
