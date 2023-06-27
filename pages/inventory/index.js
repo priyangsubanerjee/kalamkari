@@ -206,6 +206,7 @@ function Dashboard() {
                       />
                       <div className="absolute bottom-0 py-2 inset-x-0 h-fit w-full bg-black/40 backdrop-blur-sm text-white flex items-center justify-center">
                         <button
+                          className="w-full flex justify-center"
                           onClick={() => {
                             if (window.confirm("Delete this picture")) {
                               let images = optProduct.images;
