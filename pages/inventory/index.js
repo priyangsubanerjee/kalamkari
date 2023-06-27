@@ -204,7 +204,7 @@ function Dashboard() {
                         src={image}
                         alt=""
                       />
-                      <div className="absolute opacity-0 hover:opacity-100 inset-0 h-full w-full bg-black/40 backdrop-blur-sm text-white flex items-center justify-center">
+                      <div className="absolute bottom-0 py-2 inset-x-0 h-fit w-full bg-black/40 backdrop-blur-sm text-white flex items-center justify-center">
                         <button
                           onClick={() => {
                             if (window.confirm("Delete this picture")) {
@@ -218,9 +218,9 @@ function Dashboard() {
                           }}
                         >
                           <iconify-icon
-                            height="30"
-                            width="30"
-                            icon="uiw:close"
+                            height="20"
+                            width="20"
+                            icon="carbon:delete"
                           ></iconify-icon>
                         </button>
                       </div>
@@ -236,7 +236,7 @@ function Dashboard() {
                 <input
                   type="text"
                   placeholder="Saree"
-                  className="h-14 bg-transparent border mt-2 w-full px-5 border-neutral-200 rounded-none focus:outline-none focus:border-neutral-500"
+                  className="h-14 bg-transparent border mt-2 w-full px-5 border-neutral-200 rounded focus:outline-none focus:border-neutral-500"
                   name=""
                   id=""
                 />
@@ -249,7 +249,7 @@ function Dashboard() {
                 <input
                   type="tel"
                   placeholder="2000"
-                  className="h-14 bg-transparent border mt-2 w-full px-5 border-neutral-200 rounded-none focus:outline-none focus:border-neutral-500"
+                  className="h-14 bg-transparent border mt-2 w-full px-5 border-neutral-200 rounded focus:outline-none focus:border-neutral-500"
                   name=""
                   id=""
                 />
@@ -262,7 +262,7 @@ function Dashboard() {
                 <input
                   type="tel"
                   placeholder="10"
-                  className="h-14 bg-transparent border mt-2 w-full px-5 border-neutral-200 rounded-none focus:outline-none focus:border-neutral-500"
+                  className="h-14 bg-transparent border mt-2 w-full px-5 border-neutral-200 rounded focus:outline-none focus:border-neutral-500"
                   name=""
                   id=""
                 />
@@ -275,7 +275,7 @@ function Dashboard() {
                 <input
                   type="text"
                   placeholder="ABC whole sale"
-                  className="h-14 bg-transparent border mt-2 w-full px-5 border-neutral-200 rounded-none focus:outline-none focus:border-neutral-500"
+                  className="h-14 bg-transparent border mt-2 w-full px-5 border-neutral-200 rounded focus:outline-none focus:border-neutral-500"
                   name=""
                   id=""
                 />
@@ -288,7 +288,7 @@ function Dashboard() {
                 <input
                   type="tel"
                   placeholder="2500"
-                  className="h-14 bg-transparent border mt-2 w-full px-5 border-neutral-200 rounded-none focus:outline-none focus:border-neutral-500"
+                  className="h-14 bg-transparent border mt-2 w-full px-5 border-neutral-200 rounded focus:outline-none focus:border-neutral-500"
                   name=""
                   id=""
                 />
@@ -301,7 +301,7 @@ function Dashboard() {
                 <input
                   type="text"
                   placeholder="L-7"
-                  className="h-14 bg-transparent border mt-2 w-full px-5 border-neutral-200 rounded-none focus:outline-none focus:border-neutral-500"
+                  className="h-14 bg-transparent border mt-2 w-full px-5 border-neutral-200 rounded focus:outline-none focus:border-neutral-500"
                   name=""
                   id=""
                 />
