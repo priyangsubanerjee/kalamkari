@@ -16,11 +16,16 @@ export default function App({ Component, pageProps }) {
   const handleLogin = async (email, password) => {
     if (email == "" || password == "")
       return alert("Please fill all the fields");
+
+    setLoading(true);
+    changeStatus("Authenticating");
     const res = await fetch("/api/auth", {
       method: "POST",
       body: JSON.stringify({ email, password }),
     });
     const data = await res.json();
+    setLoading(false);
+    changeStatus("...");
     return data;
   };
 

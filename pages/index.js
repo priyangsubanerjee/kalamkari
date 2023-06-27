@@ -53,7 +53,7 @@ function Login() {
         <span className="text-black">Login</span>
       </div>
       <div className="px-5 mt-7 lg:px-24 lg:mt-10">
-        <div className="bg-neutral-50 mx-auto max-w-[600px] px-6 lg:px-8 py-9">
+        <div className="bg-neutral-50 mx-auto max-w-[600px] px-6 lg:px-8 py-9 mb-10">
           <div className="flex flex-col items-center justify-center">
             <img
               src="https://cdn-icons-png.flaticon.com/512/3441/3441688.png"

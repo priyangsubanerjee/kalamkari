@@ -49,6 +49,8 @@ function Dashboard() {
           changeStatus("...");
         }
       })();
+    } else {
+      window.location.href = "/";
     }
   }, []);
 
