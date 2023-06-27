@@ -12,7 +12,13 @@ const navmenu = [
   {
     name: "Orders",
     path: "/orders",
-    icon: <iconify-icon icon="solar:bag-3-outline"></iconify-icon>,
+    icon: (
+      <iconify-icon
+        height="20"
+        width="20"
+        icon="solar:bag-3-outline"
+      ></iconify-icon>
+    ),
   },
   {
     name: "Returns",
