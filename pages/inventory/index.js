@@ -138,7 +138,7 @@ function Dashboard() {
       </>
       {addmodal && (
         <div className="fixed inset-0 h-full w-full bg-black/50 flex justify-end">
-          <div className="w-full lg:w-[500px] bg-white h-full">
+          <div className="w-full lg:w-[500px] bg-white h-full overflow-auto pb-20">
             <div className="p-8">
               <div className="flex items-center justify-between">
                 <h2 className="text-xl lg:text-2xl font-jost">
@@ -241,6 +241,7 @@ function Dashboard() {
                   id=""
                 />
               </div>
+
               <div className="mt-5">
                 <label htmlFor="" className="text-xs text-neutral-600 block">
                   Purchase price (1 unit)
@@ -253,6 +254,7 @@ function Dashboard() {
                   id=""
                 />
               </div>
+
               <div className="mt-5">
                 <label htmlFor="" className="text-xs text-neutral-600 block">
                   Qty purchased
@@ -265,9 +267,10 @@ function Dashboard() {
                   id=""
                 />
               </div>
+
               <div className="mt-5">
                 <label htmlFor="" className="text-xs text-neutral-600 block">
-                  Purchase from
+                  Purchased from
                 </label>
                 <input
                   type="text"
