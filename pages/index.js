@@ -5,7 +5,8 @@ import GlobalStates from "@/context/GlobalStateContext";
 import React, { useContext, useEffect, useState } from "react";
 
 function Login() {
-  const { handleLogin, user, setUser } = useContext(GlobalStates);
+  const { handleLogin, user, setUser, setLoading, changeStatus } =
+    useContext(GlobalStates);
   const [options, setOptions] = useState({
     email: "",
     password: "",
@@ -16,10 +17,15 @@ function Login() {
   useEffect(() => {
     (async () => {
       if (localStorage.getItem("user")) {
+        setLoading(true);
+        changeStatus("Authenticating");
         const savedUser = JSON.parse(window.atob(localStorage.getItem("user")));
         const res = await handleLogin(savedUser.email, savedUser.password);
         if (res.success) {
           window.location.href = "/inventory";
+        } else {
+          setLoading(false);
+          changeStatus("...");
         }
       }
     })();
