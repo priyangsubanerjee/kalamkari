@@ -19,6 +19,7 @@ export default async function handler(req, res) {
       name,
       purchasePrice,
       purchaseQuantity,
+      stockQuantity: purchaseQuantity,
       purchasedFrom,
       sellingPrice,
       shelfLocation,

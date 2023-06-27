@@ -2,12 +2,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Navbar from "@/components/Navbar";
 import GlobalStates from "@/context/GlobalStateContext";
+import connectDatabase from "@/db/connect";
+import product from "@/db/product";
 import { uploadFileArray } from "@/helper/asset";
 import React, { useContext, useEffect, useRef, useState } from "react";
 
 function Dashboard() {
-  const { user, setUser, handleLogin, setLoading, changeStatus } =
-    useContext(GlobalStates);
+  const {
+    user,
+    setUser,
+    handleLogin,
+    setLoading,
+    changeStatus,
+    products = [],
+  } = useContext(GlobalStates);
   const [addmodal, setAddmodal] = useState(false);
   const [productAdded, setProductAdded] = useState(true);
   const inputImageRef = useRef(null);
@@ -62,6 +70,7 @@ function Dashboard() {
     }
   };
 
+  console.log(products);
   return (
     <div>
       <Navbar />
@@ -69,68 +78,63 @@ function Dashboard() {
         {user !== null && user !== false && (
           <>
             <div className="px-0 lg:px-24 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 lg:gap-5 lg:mt-10">
-              <div className="border-b border-r lg:border">
-                <div className="h-36 bg-yellow-100 relative overflow-hidden">
-                  <img
-                    src="https://assets.myntassets.com/dpr_1.5,q_60,w_400,c_limit,fl_progressive/assets/images/22536178/2023/3/28/060630ba-0cb0-46f5-ab19-59a0d7502af41679989291511KALINIMaroonBlueWovenDesignZariPureSilkKanjeevaramSaree1.jpg"
-                    alt=""
-                    className="absolute inset-0 w-full"
-                  />
-                </div>
-                <div className="p-3">
-                  <span className="text-xs text-neutral-500">KM0020</span>
-                  <h1 className="text-base font-bold mt-2">₹9000</h1>
-                  <h2 className="text-sm mt-1">Sarees (साड़ी)</h2>
-                  <div className="mt-4 grid grid-cols-3 text-xs">
-                    <div className="flex items-center">
-                      <span className="text-blue-600 mt-1">
-                        <iconify-icon icon="bi:box"></iconify-icon>
-                      </span>
-                      <span className="ml-2 text-sm">10</span>
+              {products.length > 0 &&
+                products.map((product, i) => {
+                  return (
+                    <div key={i} className="border-b border-r lg:border">
+                      <div className="h-36 bg-yellow-100 relative overflow-hidden">
+                        <img
+                          src={product.images[0]}
+                          alt=""
+                          className="absolute inset-0 w-full"
+                        />
+                      </div>
+                      <div className="p-3">
+                        <span className="text-xs text-neutral-500">
+                          {product.pid}
+                        </span>
+                        <h1 className="text-base font-bold mt-2">
+                          ₹ {product.sellingPrice || 0}
+                        </h1>
+                        <h2 className="text-sm mt-1">
+                          {product.name || "No name provided"}
+                        </h2>
+                        <div className="mt-4 grid grid-cols-3 text-xs">
+                          <div className="flex items-center">
+                            <span className="text-blue-600 mt-1">
+                              <iconify-icon icon="bi:box"></iconify-icon>
+                            </span>
+                            <span className="ml-2 text-sm">
+                              {product.stockQuantity || 0}
+                            </span>
+                          </div>
+                          <div className="flex items-center">
+                            <span className="text-sm text-red-700">
+                              ₹{product.purchasePrice || 0}
+                            </span>
+                          </div>
+                          <div className="flex items-center">
+                            <span className="text-green-600">
+                              <iconify-icon icon="bi:caret-up-fill"></iconify-icon>
+                            </span>
+                            <span className="ml-2 text-sm">
+                              {
+                                // calculate profit percentage
+
+                                Math.round(
+                                  ((product.sellingPrice -
+                                    product.purchasePrice) /
+                                    product.purchasePrice) *
+                                    100
+                                ) + "%"
+                              }
+                            </span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex items-center">
-                      <span className="text-sm text-red-700">₹4000</span>
-                    </div>
-                    <div className="flex items-center">
-                      <span className="text-green-600">
-                        <iconify-icon icon="bi:caret-up-fill"></iconify-icon>
-                      </span>
-                      <span className="ml-2 text-sm">33%</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="border-b border-r lg:border">
-                <div className="h-36 bg-yellow-100 relative overflow-hidden">
-                  <img
-                    src="https://cdn.shopify.com/s/files/1/1979/4335/collections/img_2488-23_12_greensaree_main_1200x1200.jpg?v=1642423305"
-                    alt=""
-                    className="absolute inset-0 w-full"
-                  />
-                </div>
-                <div className="p-3">
-                  <span className="text-xs text-neutral-500">KM0023</span>
-                  <h1 className="text-base font-bold mt-2">₹5000</h1>
-                  <h2 className="text-sm mt-1">Sarees (साड़ी)</h2>
-                  <div className="mt-4 grid grid-cols-3 text-xs">
-                    <div className="flex items-center">
-                      <span className="text-blue-600 mt-1">
-                        <iconify-icon icon="bi:box"></iconify-icon>
-                      </span>
-                      <span className="ml-2 text-sm">5</span>
-                    </div>
-                    <div className="flex items-center">
-                      <span className="text-sm text-red-700">₹2000</span>
-                    </div>
-                    <div className="flex items-center">
-                      <span className="text-green-600">
-                        <iconify-icon icon="bi:caret-up-fill"></iconify-icon>
-                      </span>
-                      <span className="ml-2 text-sm">33%</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                  );
+                })}
             </div>
 
             {addmodal == false && (
