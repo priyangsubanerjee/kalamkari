@@ -18,7 +18,7 @@ function Dashboard() {
     products = [],
   } = useContext(GlobalStates);
   const [addmodal, setAddmodal] = useState(false);
-  const [productAdded, setProductAdded] = useState(true);
+  const [productAdded, setProductAdded] = useState(false);
   const inputImageRef = useRef(null);
   const [optProduct, setOptProduct] = useState({
     images: [],
