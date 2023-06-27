@@ -280,6 +280,46 @@ function Dashboard() {
                   id=""
                 />
               </div>
+
+              <div className="mt-5">
+                <label htmlFor="" className="text-xs text-neutral-600 block">
+                  Selling price
+                </label>
+                <input
+                  type="tel"
+                  placeholder="2500"
+                  className="h-14 bg-transparent border mt-2 w-full px-5 border-neutral-200 rounded-none focus:outline-none focus:border-neutral-500"
+                  name=""
+                  id=""
+                />
+              </div>
+
+              <div className="mt-5">
+                <label htmlFor="" className="text-xs text-neutral-600 block">
+                  Shelf location
+                </label>
+                <input
+                  type="text"
+                  placeholder="L-7"
+                  className="h-14 bg-transparent border mt-2 w-full px-5 border-neutral-200 rounded-none focus:outline-none focus:border-neutral-500"
+                  name=""
+                  id=""
+                />
+              </div>
+
+              <div className="mt-10 flex items-center">
+                <button className="flex items-center space-x-2 text-neutral-700">
+                  <iconify-icon
+                    height="24"
+                    width="24"
+                    icon="solar:graph-up-linear"
+                  ></iconify-icon>
+                  <span className="text-sm">View metrics</span>
+                </button>
+                <button className="w-fit ml-auto px-6 h-12 flex items-center space-x-3 justify-center bg-black rounded-md text-white">
+                  <span>Save product</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
