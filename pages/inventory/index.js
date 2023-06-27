@@ -16,6 +16,7 @@ function Dashboard() {
     setLoading,
     changeStatus,
     products = [],
+    refreshProducts,
   } = useContext(GlobalStates);
   const [addmodal, setAddmodal] = useState(false);
   const [productAdded, setProductAdded] = useState(false);
@@ -78,10 +79,10 @@ function Dashboard() {
     setLoading(false);
     if (data.success) {
       setProductAdded(true);
+      refreshProducts();
     }
   };
 
-  console.log(products);
   return (
     <div>
       <Head>
@@ -150,7 +151,6 @@ function Dashboard() {
                   );
                 })}
             </div>
-
             {addmodal == false && (
               <div>
                 <div
@@ -163,7 +163,7 @@ function Dashboard() {
                       width="24"
                       icon="system-uicons:box"
                     ></iconify-icon>
-                    <span className="text-sm">16 products</span>
+                    <span className="text-sm">{products.length} products</span>
                   </div>
                   <button className="w-fit ml-auto px-6 h-12 flex items-center space-x-3 justify-center bg-black rounded-md text-white">
                     <iconify-icon
