@@ -5,6 +5,11 @@ const navmenu = [
     icon: <iconify-icon icon="bi:box"></iconify-icon>,
   },
   {
+    name: "Search",
+    path: "/search",
+    icon: <iconify-icon icon="octicon:search-24"></iconify-icon>,
+  },
+  {
     name: "Orders",
     path: "/orders",
     icon: <iconify-icon icon="solar:bag-3-outline"></iconify-icon>,
