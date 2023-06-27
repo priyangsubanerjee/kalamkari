@@ -1,5 +1,6 @@
 import GlobalStates from "@/context/GlobalStateContext";
 import navmenu from "@/static/navmenu";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useContext } from "react";
 
@@ -19,17 +20,19 @@ function Navbar() {
           <ul className="hidden text-sm lg:flex items-center space-x-4 ml-20">
             {navmenu.map((item, i) => {
               return (
-                <li
-                  key={i}
-                  className={`cursor-pointer px-4 py-1 rounded-full flex items-center space-x-2 ${
-                    router.pathname == item.path
-                      ? "bg-sky-100"
-                      : "bg-sky-100/0 hover:bg-sky-100/50"
-                  }`}
-                >
-                  {item.icon}
-                  <span>{item.name}</span>
-                </li>
+                <Link key={i} href={item.path}>
+                  <li
+                    key={i}
+                    className={`cursor-pointer px-4 py-1 rounded-full flex items-center space-x-2 ${
+                      router.pathname == item.path
+                        ? "bg-sky-100"
+                        : "bg-sky-100/0 hover:bg-sky-100/50"
+                    }`}
+                  >
+                    {item.icon}
+                    <span>{item.name}</span>
+                  </li>
+                </Link>
               );
             })}
           </ul>
@@ -55,17 +58,19 @@ function Navbar() {
         <ul className="lg:hidden text-sm flex items-center space-x-2 px-6 py-4 border-b overflow-auto shrink-0">
           {navmenu.map((item, i) => {
             return (
-              <li
-                key={i}
-                className={`cursor-pointer px-4 py-1 rounded-full flex items-center space-x-2 ${
-                  router.pathname == item.path
-                    ? "bg-sky-100"
-                    : "bg-sky-100/0 hover:bg-sky-100/50"
-                }`}
-              >
-                {item.icon}
-                <span>{item.name}</span>
-              </li>
+              <Link key={i} href={item.path}>
+                <li
+                  key={i}
+                  className={`cursor-pointer px-4 py-1 rounded-full flex items-center space-x-2 ${
+                    router.pathname == item.path
+                      ? "bg-sky-100"
+                      : "bg-sky-100/0 hover:bg-sky-100/50"
+                  }`}
+                >
+                  {item.icon}
+                  <span>{item.name}</span>
+                </li>
+              </Link>
             );
           })}
         </ul>
