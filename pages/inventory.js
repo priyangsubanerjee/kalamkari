@@ -90,10 +90,26 @@ function Dashboard() {
                 </div>
               </div>
             </div>
-            <div className="fixed bottom-0 inset-x-0 p-4 border-t bg-neutral-50">
-              <button className="w-full h-12 bg-black rounded-md text-white">
-                Add product
-              </button>
+            <div>
+              <div className="block lg:hidden fixed bottom-0 inset-x-0 p-4 border-t bg-neutral-50">
+                <button className="w-full h-12 flex items-center space-x-3 justify-center bg-black rounded-md text-white">
+                  <iconify-icon
+                    height="24"
+                    width="24"
+                    icon="system-uicons:box-add"
+                  ></iconify-icon>
+                  <span>Add product</span>
+                </button>
+              </div>
+              <div className="hidden lg:block fixed bottom-9 right-9">
+                <button className="h-20 w-20 shadow-xl shadow-black/20 bg-black rounded-full text-white flex items-center justify-center">
+                  <iconify-icon
+                    height="30"
+                    width="30"
+                    icon="system-uicons:box-add"
+                  ></iconify-icon>
+                </button>
+              </div>
             </div>
           </>
         )}
