@@ -266,8 +266,46 @@ function Orders() {
                         width="20"
                         icon="material-symbols:add-shopping-cart-rounded"
                       ></iconify-icon>
-                      <span>Add product to cart</span>
+                      <span>
+                        {cart.length == 0
+                          ? "Add product to cart"
+                          : "Modify products"}
+                      </span>
                     </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 gap-5 mt-7">
+                    {cart.map((item, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className="grid grid-cols-3 border-b pb-4"
+                        >
+                          <div className="flex  items-center">
+                            <img
+                              className="h-12 w-12 object-cover"
+                              src={item.image}
+                              alt=""
+                            />
+                            <div className="ml-3">
+                              <p className="text-xs text-neutral-700">
+                                {item.pid}
+                              </p>
+                              <p className="text-xs mt-2  text-neutral-500">
+                                ({item.name})
+                              </p>
+                            </div>
+                          </div>
+                          <div className="flex flex-col justify-center space-y-2 text-xs">
+                            <p>{item.quantity} pcs</p>
+                            <p>₹{item.price} each</p>
+                          </div>
+                          <div className="flex flex-col justify-center text-sm">
+                            <p>₹{item.quantity * item.price}</p>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
