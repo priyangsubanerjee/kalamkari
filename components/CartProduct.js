@@ -3,7 +3,7 @@ import React from "react";
 
 function CartProduct({ product }) {
   return (
-    <div className="grid grid-cols-3 border-b pb-4 gap-6">
+    <div className="grid grid-cols-3 border-b pb-4 gap-6 w-full">
       <div className="flex  items-center">
         <img className="h-12 w-12 object-cover" src={product.image} alt="" />
         <div className="ml-3">

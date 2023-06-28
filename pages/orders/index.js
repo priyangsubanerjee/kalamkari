@@ -202,6 +202,7 @@ function Orders() {
                     Payment status
                   </th>
                   <th className="font-normal px-5 py-4 text-sm"></th>
+                  <th className="font-normal px-5 py-4 text-sm"></th>
                 </tr>
               </thead>
               <tbody>
