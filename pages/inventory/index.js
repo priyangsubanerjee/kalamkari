@@ -140,7 +140,7 @@ function Dashboard() {
             </div>
             {addmodal == false && (
               <div>
-                <div className="flex lg:hidden fixed items-center bottom-0 inset-x-0 p-4 pb-8 border-t bg-neutral-50 z-10">
+                <div className="flex lg:hidden fixed items-center bottom-0 inset-x-0 p-4 border-t bg-neutral-50 z-10">
                   <div className="flex items-center space-x-1 text-neutral-700">
                     <iconify-icon
                       height="24"
@@ -149,7 +149,10 @@ function Dashboard() {
                     ></iconify-icon>
                     <span className="text-sm">{products.length} products</span>
                   </div>
-                  <button className="w-fit text-sm ml-auto px-6 h-12 flex items-center space-x-3 justify-center bg-black rounded-md text-white">
+                  <button
+                    onClick={() => setAddmodal(true)}
+                    className="w-fit text-sm ml-auto px-6 h-12 flex items-center space-x-3 justify-center bg-black rounded-md text-white"
+                  >
                     <iconify-icon
                       height="24"
                       width="24"
