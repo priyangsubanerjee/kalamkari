@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import Loading from "@/components/Loading";
 import GlobalStates from "@/context/GlobalStateContext";
+import NextProgress from "next-progress";
 import "@/styles/globals.css";
 import { set } from "mongoose";
 import { useEffect, useState } from "react";
@@ -119,6 +120,7 @@ export default function App({ Component, pageProps }) {
         authState,
       }}
     >
+      <NextProgress color="#000000" />
       <Component {...pageProps} />
       <Loading loading={loading} status={status} />
     </GlobalStates.Provider>
