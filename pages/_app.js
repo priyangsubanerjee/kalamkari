@@ -1,9 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Loading from "@/components/Loading";
 import GlobalStates from "@/context/GlobalStateContext";
 import "@/styles/globals.css";
+import { set } from "mongoose";
 import { useEffect, useState } from "react";
 
 export default function App({ Component, pageProps }) {
+  const [authState, setAuthState] = useState("authenticating"); // unauthenticated, authenticating, authenticated
   const [user, setUser] = useState(false);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("Loading");
@@ -52,6 +55,56 @@ export default function App({ Component, pageProps }) {
     })();
   }, []);
 
+  useEffect(() => {
+    revaliateUser();
+  }, []);
+
+  const revaliateUser = async () => {
+    if (!sessionStorage.getItem("user")) {
+      if (localStorage.getItem("user")) {
+        (async () => {
+          const savedUser = JSON.parse(
+            window.atob(localStorage.getItem("user"))
+          );
+          const res = await handleLogin(savedUser.email, savedUser.password);
+          if (res.success) {
+            setAuthState("authenticated");
+            setUser(res.data);
+            setLoading(false);
+            changeStatus("...");
+            sessionStorage.setItem(
+              "user",
+              JSON.stringify({
+                email: savedUser.email,
+                password: savedUser.password,
+                state: "authenticated",
+              })
+            );
+            return true;
+          } else {
+            setAuthState("unauthenticated");
+            sessionStorage.removeItem("user");
+            localStorage.removeItem("user");
+            window.location.href = "/";
+            setLoading(false);
+            changeStatus("...");
+            return false;
+          }
+        })();
+      } else {
+        setLoading(false);
+        setAuthState("unauthenticated");
+        return false;
+      }
+    } else {
+      setUser(JSON.parse(sessionStorage.getItem("user")));
+      setAuthState("authenticated");
+      setLoading(false);
+      changeStatus("...");
+      return true;
+    }
+  };
+
   return (
     <GlobalStates.Provider
       value={{
@@ -62,6 +115,8 @@ export default function App({ Component, pageProps }) {
         changeStatus,
         products: products.data,
         refreshProducts,
+        revaliateUser,
+        authState,
       }}
     >
       <Component {...pageProps} />

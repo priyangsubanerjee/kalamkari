@@ -30,26 +30,10 @@ function Dashboard() {
     sellingPrice: "",
     shelfLocation: "",
   });
+
   useEffect(() => {
-    if (localStorage.getItem("user")) {
-      (async () => {
-        if (user == false || user == null) {
-          setLoading(true);
-          changeStatus("Authenticating");
-        }
-        const savedUser = JSON.parse(window.atob(localStorage.getItem("user")));
-        const res = await handleLogin(savedUser.email, savedUser.password);
-        if (res.success) {
-          setUser(res.data);
-          setLoading(false);
-          changeStatus("...");
-        } else {
-          localStorage.removeItem("user");
-          window.location.href = "/login";
-          setLoading(false);
-          changeStatus("...");
-        }
-      })();
+    if (sessionStorage.getItem("user")) {
+      setUser(JSON.parse(sessionStorage.getItem("user")));
     } else {
       window.location.href = "/";
     }

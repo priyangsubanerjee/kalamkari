@@ -2,11 +2,14 @@ import GlobalStates from "@/context/GlobalStateContext";
 import navmenu from "@/static/navmenu";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 function Navbar() {
-  const { user } = useContext(GlobalStates);
+  const { user, authState } = useContext(GlobalStates);
   const router = useRouter();
+  useEffect(() => {
+    console.log(user, authState);
+  }, [user, authState]);
   return (
     <nav>
       <div className="border-b flex items-center px-6 lg:px-24 h-16 lg:h-20">
@@ -16,7 +19,7 @@ function Navbar() {
             Inventory management system
           </p>
         </div>
-        {user != null && user != false && (
+        {authState == "authenticated" && (
           <ul className="hidden text-sm lg:flex items-center space-x-4 ml-20">
             {navmenu.map((item, i) => {
               return (
@@ -54,7 +57,7 @@ function Navbar() {
           </svg>
         </button>
       </div>
-      {user != null && user != false && (
+      {authState == "authenticated" && (
         <ul className="lg:hidden text-sm flex items-center space-x-2 px-6 py-4 border-b overflow-auto shrink-0">
           {navmenu.map((item, i) => {
             return (

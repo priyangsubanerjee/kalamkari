@@ -4,21 +4,15 @@ import React, { useContext, useEffect } from "react";
 
 function Orders() {
   const { handleLogin, user, setUser } = useContext(GlobalStates);
+
   useEffect(() => {
-    if (user == null || user == false) {
-      (async () => {
-        if (localStorage.getItem("user")) {
-          const savedUser = JSON.parse(
-            window.atob(localStorage.getItem("user"))
-          );
-          const res = await handleLogin(savedUser.email, savedUser.password);
-          if (res.success) {
-            setUser(res.data);
-          }
-        }
-      })();
+    if (sessionStorage.getItem("user")) {
+      setUser(JSON.parse(sessionStorage.getItem("user")));
+    } else {
+      window.location.href = "/";
     }
   }, []);
+
   return (
     <div>
       <Navbar />
