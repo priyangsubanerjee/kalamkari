@@ -285,10 +285,7 @@ function Product({ product = {} }) {
 
           {readOnly == true && (
             <div>
-              <div
-                onClick={() => setReadOnly(false)}
-                className="flex lg:hidden fixed items-center bottom-0 inset-x-0 p-4 pb-8 border-t bg-neutral-50 z-10"
-              >
+              <div className="flex lg:hidden fixed items-center bottom-0 inset-x-0 p-4 pb-8 border-t bg-neutral-50 z-10">
                 <div className="flex items-center space-x-2 text-neutral-700">
                   <iconify-icon
                     height="24"
