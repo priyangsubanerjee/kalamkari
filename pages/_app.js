@@ -12,6 +12,7 @@ export default function App({ Component, pageProps }) {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("Loading");
   const [products, setProducts] = useState([]);
+  const [invoices, setInvoices] = useState([]);
 
   const changeStatus = (status) => {
     setStatus(status);
@@ -41,18 +42,18 @@ export default function App({ Component, pageProps }) {
     setProducts(data);
   };
 
-  const updateInventory = async () => {
-    let res = await fetch("/api/product/inventory", {
+  const refreshInvoices = async () => {
+    let res = await fetch("/api/orders/invoices", {
       method: "GET",
     });
     let data = await res.json();
-    setProducts(data);
-    return true;
+    setInvoices(data);
   };
 
   useEffect(() => {
     (async () => {
       await refreshProducts();
+      await refreshInvoices();
     })();
   }, []);
 
@@ -115,8 +116,10 @@ export default function App({ Component, pageProps }) {
         setLoading,
         changeStatus,
         products: products.data,
+        invoices: invoices.data,
         refreshProducts,
         revaliateUser,
+        refreshInvoices,
         authState,
       }}
     >

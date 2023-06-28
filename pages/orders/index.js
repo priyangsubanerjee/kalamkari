@@ -1,16 +1,34 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
+import InvoiceCard from "@/components/InvoiceCard";
 import Navbar from "@/components/Navbar";
 import GlobalStates from "@/context/GlobalStateContext";
 import React, { useContext, useEffect, useState } from "react";
 
 function Orders() {
-  const { handleLogin, user, setUser, products } = useContext(GlobalStates);
+  const {
+    user,
+    setUser,
+    products,
+    setLoading,
+    changeStatus,
+    invoices,
+    refreshInvoices,
+  } = useContext(GlobalStates);
   const [orderModal, setOrderModal] = useState(false);
   const [chooseProduct, setChooseProduct] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState(products || []);
   const [cart, setCart] = useState([]);
+  const [inv, setInv] = useState("");
+  const [invoiceOptions, setInvoiceOptions] = useState({
+    name: "",
+    phone: "",
+    paymentStatus: "paid",
+    amountPaid: "",
+    paymentMethod: "upi",
+    total: 0,
+  });
 
   useEffect(() => {
     if (sessionStorage.getItem("user")) {
@@ -22,7 +40,7 @@ function Orders() {
 
   useEffect(() => {
     if (searchQuery == "") {
-      setSearchResults([]);
+      setSearchResults(products);
       return;
     } else {
       let results = products.filter(
@@ -35,7 +53,21 @@ function Orders() {
   }, [searchQuery]);
 
   useEffect(() => {
-    console.log(cart);
+    if (cart.length > 0) {
+      let total = 0;
+      cart.map((item) => {
+        total = total + item.price * item.quantity;
+      });
+      setInvoiceOptions({
+        ...invoiceOptions,
+        total: total,
+      });
+    } else {
+      setInvoiceOptions({
+        ...invoiceOptions,
+        total: 0,
+      });
+    }
   }, [cart]);
 
   const ProductCard = (product) => {
@@ -114,6 +146,44 @@ function Orders() {
     );
   };
 
+  const handleGenerateInvoice = async () => {
+    if (cart.length == 0) {
+      alert("Please add products to cart");
+      return;
+    } else if (invoiceOptions.name.length == 0) {
+      alert("Please add customer name");
+      return;
+    } else if (invoiceOptions.phone.length == 0) {
+      alert("Please add customer phone");
+      return;
+    } else if (invoiceOptions.amountPaid.length == 0) {
+      alert("Please add amount paid");
+      return;
+    }
+    setLoading(true);
+    changeStatus("Creating invoice");
+    const response = await fetch("/api/orders/generate", {
+      method: "POST",
+      body: JSON.stringify({
+        products: cart,
+        name: invoiceOptions.name,
+        phone: invoiceOptions.phone,
+        total: invoiceOptions.total,
+        status: invoiceOptions.paymentStatus,
+        amountPaid: invoiceOptions.amountPaid,
+        paymentMethod: invoiceOptions.paymentMethod,
+      }),
+    });
+    const invoice = await response.json();
+    if (invoice.success) {
+      setLoading(false);
+      setInv(invoice.data.inv);
+      refreshInvoices();
+    } else {
+      setLoading(false);
+    }
+  };
+
   return (
     <div>
       <Navbar />
@@ -135,70 +205,11 @@ function Orders() {
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b">
-                  <td className="font-normal px-5 py-4 text-sm">IN0027</td>
-                  <td className="font-normal px-5 py-4 text-sm">29 June</td>
-                  <td className="font-normal px-5 py-4 text-sm">
-                    Priyangsu Banerjee
-                  </td>
-                  <td className="font-normal px-5 py-4 text-sm flex items-center">
-                    <button className="bg-neutral-100 hover:bg-neutral-200 h-10 w-10 rounded transition-all">
-                      <iconify-icon
-                        height="20"
-                        width="20"
-                        icon="system-uicons:box"
-                      ></iconify-icon>
-                    </button>
-                  </td>
-                  <td className="font-normal px-5 py-4 text-sm">₹4000</td>
-                  <td className="font-normal px-5 py-4 text-sm flex items-center space-x-2">
-                    <span className="text-green-600">
-                      <iconify-icon icon="bi:check-circle-fill"></iconify-icon>
-                    </span>
-                    <span>Paid</span>
-                  </td>
-                  <td className="font-normal px-5 py-4 text-sm">
-                    <button className="bg-sky-100 hover:bg-sky-200 h-10 w-10 rounded transition-all flex items-center justify-center">
-                      <iconify-icon
-                        height="16"
-                        width="16"
-                        icon="ep:right"
-                      ></iconify-icon>
-                    </button>
-                  </td>
-                </tr>
-                <tr className="border-b">
-                  <td className="font-normal px-5 py-4 text-sm">IN0027</td>
-                  <td className="font-normal px-5 py-4 text-sm">29 June</td>
-                  <td className="font-normal px-5 py-4 text-sm">
-                    Priyangsu Banerjee
-                  </td>
-                  <td className="font-normal px-5 py-4 text-sm flex items-center">
-                    <button className="bg-neutral-100 hover:bg-neutral-200 h-10 w-10 rounded transition-all">
-                      <iconify-icon
-                        height="20"
-                        width="20"
-                        icon="system-uicons:box"
-                      ></iconify-icon>
-                    </button>
-                  </td>
-                  <td className="font-normal px-5 py-4 text-sm">₹4000</td>
-                  <td className="font-normal px-5 py-4 text-sm flex items-center space-x-2">
-                    <span className="text-green-600">
-                      <iconify-icon icon="bi:check-circle-fill"></iconify-icon>
-                    </span>
-                    <span>Paid</span>
-                  </td>
-                  <td className="font-normal px-5 py-4 text-sm">
-                    <button className="bg-sky-100 hover:bg-sky-200 h-10 w-10 rounded transition-all flex items-center justify-center">
-                      <iconify-icon
-                        height="16"
-                        width="16"
-                        icon="ep:right"
-                      ></iconify-icon>
-                    </button>
-                  </td>
-                </tr>
+                {invoices &&
+                  invoices.length &&
+                  invoices.map((invoice, i) => {
+                    return <InvoiceCard key={i} invoice={invoice} />;
+                  })}
               </tbody>
             </table>
           </div>
@@ -241,7 +252,30 @@ function Orders() {
                     <h2 className="text-xl lg:text-2xl font-jost">
                       Create order
                     </h2>
-                    <button onClick={() => setOrderModal(false)}>
+                    <button
+                      onClick={() => {
+                        if (cart.length > 0) {
+                          if (
+                            window.confirm(
+                              "You have items in your cart. Are you sure you want to close?"
+                            )
+                          ) {
+                            setCart([]);
+                            setOrderModal(false);
+                            setInvoiceOptions({
+                              name: "",
+                              phone: "",
+                              paymentStatus: "paid",
+                              amountPaid: 0,
+                              paymentMethod: "upi",
+                              total: 0,
+                            });
+                          }
+                        } else {
+                          setOrderModal(false);
+                        }
+                      }}
+                    >
                       <iconify-icon
                         height="20"
                         width="20"
@@ -307,51 +341,251 @@ function Orders() {
                       );
                     })}
                   </div>
+
+                  <div className="flex justify-between mt-10">
+                    <div>
+                      <p className="font-jost text-xl">Total payable amount</p>
+                      <p className="text-xs mt-2 text-teal-600">
+                        *inclusive of all taxes
+                      </p>
+                    </div>
+                    <div>
+                      <p className="font-jost text-lg font-medium">
+                        ₹{invoiceOptions.total}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="border-t mt-10">
+                    <div className="mt-5">
+                      <label
+                        htmlFor=""
+                        className="text-xs text-neutral-600 block"
+                      >
+                        Customer name
+                      </label>
+                      <input
+                        type="text"
+                        value={invoiceOptions.name}
+                        onChange={(e) =>
+                          setInvoiceOptions({
+                            ...invoiceOptions,
+                            name: e.target.value,
+                          })
+                        }
+                        placeholder="John doe"
+                        className="h-14 bg-transparent border mt-2 w-full px-5 border-neutral-200 rounded focus:outline-none focus:border-neutral-500"
+                        name=""
+                        id=""
+                      />
+                    </div>
+                    <div className="mt-5">
+                      <label
+                        htmlFor=""
+                        className="text-xs text-neutral-600 block"
+                      >
+                        Customer phone
+                      </label>
+                      <input
+                        type="tel"
+                        placeholder="965xxxxxxx"
+                        value={invoiceOptions.phone}
+                        onChange={(e) =>
+                          setInvoiceOptions({
+                            ...invoiceOptions,
+                            phone: e.target.value,
+                          })
+                        }
+                        className="h-14 bg-transparent border mt-2 w-full px-5 border-neutral-200 rounded focus:outline-none focus:border-neutral-500"
+                        name=""
+                        id=""
+                      />
+                    </div>
+                    <div className="mt-5">
+                      <label
+                        htmlFor=""
+                        className="text-xs text-neutral-600 block"
+                      >
+                        Payment status
+                      </label>
+                      <select
+                        className="relative appearance-none h-14 bg-transparent border mt-2 w-full px-5 border-neutral-200 rounded focus:outline-none focus:border-neutral-500 "
+                        value={invoiceOptions.paymentStatus}
+                        onChange={(e) =>
+                          setInvoiceOptions({
+                            ...invoiceOptions,
+                            paymentStatus: e.target.value,
+                          })
+                        }
+                        name=""
+                        id=""
+                      >
+                        <option value="paid">Paid</option>
+                        <option value="due">Due</option>
+                      </select>
+                    </div>
+                    <div className="mt-5">
+                      <label
+                        htmlFor=""
+                        className="text-xs text-neutral-600 block"
+                      >
+                        Amount paid
+                      </label>
+                      <input
+                        type="tel"
+                        placeholder="1000"
+                        value={invoiceOptions.amountPaid}
+                        onChange={(e) =>
+                          setInvoiceOptions({
+                            ...invoiceOptions,
+                            amountPaid: e.target.value,
+                          })
+                        }
+                        className="h-14 bg-transparent border mt-2 w-full px-5 border-neutral-200 rounded focus:outline-none focus:border-neutral-500"
+                        name=""
+                        id=""
+                      />
+                    </div>
+                    <div className="mt-5">
+                      <label
+                        htmlFor=""
+                        className="text-xs text-neutral-600 block"
+                      >
+                        Payment method
+                      </label>
+                      <select
+                        className="relative appearance-none h-14 bg-transparent border mt-2 w-full px-5 border-neutral-200 rounded focus:outline-none focus:border-neutral-500 "
+                        value={invoiceOptions.paymentMethod}
+                        onChange={(e) =>
+                          setInvoiceOptions({
+                            ...invoiceOptions,
+                            paymentMethod: e.target.value,
+                          })
+                        }
+                        name=""
+                        id=""
+                      >
+                        <option value="upi">Upi</option>
+                        <option value="cash">Cash</option>
+                        <option value="c/d cards">Credit / Debit cards</option>
+                      </select>
+                    </div>
+                    <div className="mt-10 flex items-center">
+                      <button
+                        onClick={() => handleGenerateInvoice()}
+                        className="w-fit ml-auto px-6 h-12 flex items-center space-x-3 justify-center bg-black rounded-md text-white"
+                      >
+                        <span>Generate invoice</span>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           )}
 
           {chooseProduct && (
-            <div className="fixed inset-0 h-full w-full bg-black/50">
-              <div className="fixed inset-0 h-full w-full bg-black/50 flex justify-end">
-                <div className="w-full lg:w-[500px] bg-white h-full overflow-auto pb-8">
-                  <div className="p-8">
-                    <div className="flex items-center justify-between">
-                      <h2 className="text-xl lg:text-2xl font-jost">
-                        Choose products
-                      </h2>
-                      <button onClick={() => setChooseProduct(false)}>
-                        <iconify-icon
-                          height="20"
-                          width="20"
-                          icon="uiw:close"
-                        ></iconify-icon>
-                      </button>
-                    </div>
-                    <div className="flex items-center mt-2 space-x-2">
-                      <iconify-icon icon="ep:right"></iconify-icon>
-                      <p className="text-xs text-neutral-500 w-fit">
-                        Inventory is managed by distributed CDN
-                      </p>
-                    </div>
+            <div className="fixed inset-0 h-full w-full bg-black/50 flex justify-end">
+              <div className="w-full lg:w-[500px] bg-white h-full overflow-auto pb-8">
+                <div className="p-8">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-xl lg:text-2xl font-jost">
+                      Choose products
+                    </h2>
+                    <button onClick={() => setChooseProduct(false)}>
+                      <iconify-icon
+                        height="25"
+                        width="25"
+                        icon="teenyicons:tick-solid"
+                      ></iconify-icon>
+                    </button>
+                  </div>
+                  <div className="flex items-center mt-2 space-x-2">
+                    <iconify-icon icon="ep:right"></iconify-icon>
+                    <p className="text-xs text-neutral-500 w-fit">
+                      Inventory is managed by distributed CDN
+                    </p>
+                  </div>
 
-                    <div className="mt-10">
-                      <input
-                        type="text"
-                        placeholder="Search products"
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="px-5 py-3 w-full border focus-within:border-black outline-none lg:text-sm"
-                        name=""
-                        id=""
-                      />
-                    </div>
+                  <div className="mt-10">
+                    <input
+                      type="text"
+                      placeholder="Search products"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="px-5 py-3 w-full border focus-within:border-black outline-none lg:text-sm"
+                      name=""
+                      id=""
+                    />
+                  </div>
 
-                    <div className="grid grid-cols-1 mt-8 gap-5">
-                      {searchResults.map((product) => {
+                  <div className="grid grid-cols-1 mt-8 gap-5">
+                    {searchResults &&
+                      searchResults.map((product) => {
                         return ProductCard(product);
                       })}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {inv.length > 0 && (
+            <div className="fixed inset-0 h-full w-full bg-black/50 flex justify-end z-30">
+              <div className="w-full lg:w-[500px] bg-white h-full overflow-auto pb-8">
+                <div className="p-8">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-xl lg:text-2xl font-jost">
+                      Invoice generated
+                    </h2>
+                    <button
+                      onClick={() => {
+                        setInv("");
+                        setCart([]);
+                        setOrderModal(false);
+                        setInvoiceOptions({
+                          name: "",
+                          phone: "",
+                          paymentStatus: "paid",
+                          amountPaid: 0,
+                          paymentMethod: "upi",
+                          total: 0,
+                        });
+                        setChooseProduct(false);
+                        setSearchQuery("");
+                        setLoading(false);
+                      }}
+                    >
+                      <iconify-icon
+                        height="25"
+                        width="25"
+                        icon="teenyicons:tick-solid"
+                      ></iconify-icon>
+                    </button>
+                  </div>
+                  <div className="flex items-center mt-2 space-x-2">
+                    <iconify-icon icon="ep:right"></iconify-icon>
+                    <p className="text-xs text-neutral-500 w-fit">
+                      Inventory is managed by distributed CDN
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-center bg-neutral-50 p-8 mt-7">
+                    <img
+                      src="https://static.vecteezy.com/system/resources/previews/010/160/867/non_2x/check-mark-icon-sign-design-free-png.png"
+                      className="h-20"
+                      alt=""
+                    />
+                    <h2 className="font-medium mt-6 text-neutral-800">{inv}</h2>
+                    <p className="text-xs text-neutral-600 mt-2">
+                      Invoice has been generated successfully.
+                    </p>
+                    <div className="mt-10 grid grid-cols-2 w-full gap-2">
+                      <button className="border hover:bg-neutral-200 h-12 text-sm">
+                        Copy link
+                      </button>
+                      <button className="border bg-neutral-800 text-white hover:bg-neutral-900 h-12 text-sm">
+                        Share invoice
+                      </button>
                     </div>
                   </div>
                 </div>
