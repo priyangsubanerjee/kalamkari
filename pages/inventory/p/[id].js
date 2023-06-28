@@ -1,8 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import Navbar from "@/components/Navbar";
+import GlobalStates from "@/context/GlobalStateContext";
 import connectDatabase from "@/db/connect";
 import product from "@/db/product";
-import React, { useRef, useState } from "react";
+import { uploadFileArray } from "@/helper/asset";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 export async function getServerSideProps(ctx) {
   const { id } = ctx.query;
@@ -24,10 +26,49 @@ export async function getServerSideProps(ctx) {
 }
 
 function Product({ product = {} }) {
+  const { setLoading, changeStatus, refreshProducts } =
+    useContext(GlobalStates);
   const [readOnly, setReadOnly] = useState(true);
   const [productCopy, setProductCopy] = useState(product);
   const [additionalPhotos, setAdditionalPhotos] = useState([]);
   const inputImageRef = useRef(null);
+  const nameRef = useRef(null);
+
+  const handleSave = async () => {
+    let images = [...productCopy.images];
+    setLoading(true);
+    if (additionalPhotos.length > 0) {
+      const links = await uploadFileArray(additionalPhotos, changeStatus);
+      images = [...images, ...links];
+    }
+    changeStatus("Updating product");
+    const res = await fetch("/api/product/update", {
+      method: "POST",
+      body: JSON.stringify({
+        pid: productCopy.pid,
+        images,
+        name: productCopy.name,
+        purchasePrice: productCopy.purchasePrice,
+        purchaseQuantity: productCopy.purchaseQuantity,
+        purchasedFrom: productCopy.purchasedFrom,
+        sellingPrice: productCopy.sellingPrice,
+        shelfLocation: productCopy.shelfLocation,
+      }),
+    });
+    const data = await res.json();
+    if (data.success) {
+      setLoading(false);
+      refreshProducts();
+      setReadOnly(true);
+    }
+  };
+
+  useEffect(() => {
+    // focus on the first input field
+    if (readOnly == false) {
+      nameRef.current && nameRef.current.focus();
+    }
+  }, [readOnly]);
 
   return (
     <div className={`${readOnly == true ? "pb-32" : "pb-7"}`}>
@@ -81,27 +122,29 @@ function Product({ product = {} }) {
                     src={image}
                     alt=""
                   />
-                  <div className="absolute bottom-0 inset-x-0 h-10 w-full bg-black/40 backdrop-blur-sm text-white flex items-center justify-center">
-                    <button
-                      className="w-full h-full flex items-center justify-center"
-                      onClick={() => {
-                        if (window.confirm("Remove this picture?")) {
-                          let images = productCopy.images;
-                          images.splice(index, 1);
-                          setProductCopy({
-                            ...productCopy,
-                            images: images,
-                          });
-                        }
-                      }}
-                    >
-                      <iconify-icon
-                        height="20"
-                        width="20"
-                        icon="carbon:delete"
-                      ></iconify-icon>
-                    </button>
-                  </div>
+                  {readOnly == false && (
+                    <div className="absolute bottom-0 inset-x-0 h-10 w-full bg-black/40 backdrop-blur-sm text-white flex items-center justify-center">
+                      <button
+                        className="w-full h-full flex items-center justify-center"
+                        onClick={() => {
+                          if (window.confirm("Remove this picture?")) {
+                            let images = productCopy.images;
+                            images.splice(index, 1);
+                            setProductCopy({
+                              ...productCopy,
+                              images: images,
+                            });
+                          }
+                        }}
+                      >
+                        <iconify-icon
+                          height="20"
+                          width="20"
+                          icon="carbon:delete"
+                        ></iconify-icon>
+                      </button>
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -117,24 +160,27 @@ function Product({ product = {} }) {
                     src={URL.createObjectURL(image)}
                     alt=""
                   />
-                  <div className="absolute bottom-0 inset-x-0 h-10 w-full bg-black/40 backdrop-blur-sm text-white flex items-center justify-center">
-                    <button
-                      className="w-full h-full flex items-center justify-center"
-                      onClick={() => {
-                        if (window.confirm("Remove this picture?")) {
-                          let images = [...additionalPhotos];
-                          images.splice(index, 1);
-                          setAdditionalPhotos(images);
-                        }
-                      }}
-                    >
-                      <iconify-icon
-                        height="20"
-                        width="20"
-                        icon="carbon:delete"
-                      ></iconify-icon>
-                    </button>
-                  </div>
+
+                  {readOnly == false && (
+                    <div className="absolute bottom-0 inset-x-0 h-10 w-full bg-black/40 backdrop-blur-sm text-white flex items-center justify-center">
+                      <button
+                        className="w-full h-full flex items-center justify-center"
+                        onClick={() => {
+                          if (window.confirm("Remove this picture?")) {
+                            let images = [...additionalPhotos];
+                            images.splice(index, 1);
+                            setAdditionalPhotos(images);
+                          }
+                        }}
+                      >
+                        <iconify-icon
+                          height="20"
+                          width="20"
+                          icon="carbon:delete"
+                        ></iconify-icon>
+                      </button>
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -146,6 +192,7 @@ function Product({ product = {} }) {
             </label>
             <input
               type="text"
+              ref={nameRef}
               readOnly={readOnly}
               value={productCopy.name}
               onChange={(e) => {
@@ -275,7 +322,7 @@ function Product({ product = {} }) {
                 <span className="text-sm">View mode</span>
               </button>
               <button
-                onClick={() => handleSaveProduct()}
+                onClick={() => handleSave()}
                 className="w-fit ml-auto px-6 h-12 flex items-center space-x-3 justify-center bg-black rounded-md text-white"
               >
                 <span>Save product</span>
@@ -294,7 +341,10 @@ function Product({ product = {} }) {
                   ></iconify-icon>
                   <span className="text-sm">{product.pid}</span>
                 </div>
-                <button className="w-fit text-sm ml-auto px-6 h-12 flex items-center space-x-3 justify-center bg-black rounded-md text-white">
+                <button
+                  onClick={() => setReadOnly(false)}
+                  className="w-fit text-sm ml-auto px-6 h-12 flex items-center space-x-3 justify-center bg-black rounded-md text-white"
+                >
                   <iconify-icon
                     height="24"
                     width="24"
