@@ -1,9 +1,16 @@
+/* eslint-disable @next/next/no-img-element */
+/* eslint-disable react-hooks/exhaustive-deps */
 import Navbar from "@/components/Navbar";
 import GlobalStates from "@/context/GlobalStateContext";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 function Orders() {
-  const { handleLogin, user, setUser } = useContext(GlobalStates);
+  const { handleLogin, user, setUser, products } = useContext(GlobalStates);
+  const [orderModal, setOrderModal] = useState(false);
+  const [chooseProduct, setChooseProduct] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     if (sessionStorage.getItem("user")) {
@@ -12,6 +19,100 @@ function Orders() {
       window.location.href = "/";
     }
   }, []);
+
+  useEffect(() => {
+    if (searchQuery == "") {
+      setSearchResults([]);
+      return;
+    } else {
+      let results = products.filter(
+        (product) =>
+          product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          product.pid.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setSearchResults(results);
+    }
+  }, [searchQuery]);
+
+  useEffect(() => {
+    console.log(cart);
+  }, [cart]);
+
+  const ProductCard = (product) => {
+    return (
+      <div className="flex">
+        <img
+          src={product.images[0]}
+          className="h-24 w-24 object-cover"
+          alt=""
+        />
+        <div className="ml-4">
+          <span className="text-xs text-neutral-700">
+            {product.pid} - ₹{product.sellingPrice}
+          </span>
+          <h2 className="font-jost text-xs mt-1">{product.name || ""}</h2>
+          <div className="flex items-center mt-3">
+            <button
+              onClick={() => {
+                if (cart.filter((item) => item.pid == product.pid).length > 0) {
+                  let cartImage = cart.map((item) => {
+                    if (item.pid == product.pid) {
+                      item.quantity = item.quantity + 1;
+                    }
+                    return item;
+                  });
+                  setCart(cartImage);
+                } else {
+                  let cartImage = [...cart];
+                  cartImage.push({
+                    pid: product.pid,
+                    name: product.name,
+                    price: product.sellingPrice,
+                    image: product.images[0],
+                    quantity: 1,
+                  });
+                  setCart(cartImage);
+                }
+              }}
+              className="px-4 h-8 bg-neutral-100 hover:bg-neutral-200 flex items-center justify-center"
+            >
+              <iconify-icon icon="ic:round-add"></iconify-icon>
+            </button>
+            <span className="px-4 h-8 bg-white flex items-center justify-center text-sm">
+              {cart.filter((item) => item.pid == product.pid).length > 0
+                ? cart.filter((item) => item.pid == product.pid)[0].quantity
+                : 0}
+            </span>
+            <button
+              onClick={() => {
+                if (cart.filter((item) => item.pid == product.pid).length > 0) {
+                  if (
+                    cart.filter((item) => item.pid == product.pid)[0]
+                      .quantity == 1
+                  ) {
+                    setCart(cart.filter((item) => item.pid != product.pid));
+                  } else {
+                    let cartImage = cart.map((item) => {
+                      if (item.pid == product.pid) {
+                        item.quantity = item.quantity - 1;
+                      }
+                      return item;
+                    });
+                    setCart(cartImage);
+                  }
+                } else {
+                  console.log("not in cart");
+                }
+              }}
+              className="px-4 h-8 bg-neutral-100 hover:bg-neutral-200 flex items-center justify-center"
+            >
+              <iconify-icon icon="fluent:subtract-16-filled"></iconify-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div>
@@ -101,6 +202,124 @@ function Orders() {
               </tbody>
             </table>
           </div>
+
+          {orderModal == false && (
+            <div>
+              <div className="flex lg:hidden fixed items-center bottom-0 inset-x-0 p-4 border-t bg-neutral-50 z-10">
+                <button
+                  onClick={() => setOrderModal(true)}
+                  className="w-fit text-sm ml-auto px-6 h-12 flex items-center space-x-3 justify-center bg-black rounded-md text-white"
+                >
+                  <iconify-icon
+                    height="22"
+                    width="22"
+                    icon="solar:bag-3-outline"
+                  ></iconify-icon>
+                  <span>Create order</span>
+                </button>
+              </div>
+              <div
+                onClick={() => setOrderModal(true)}
+                className="hidden lg:block fixed bottom-9 right-9 z-10"
+              >
+                <button className="h-20 w-20 shadow-xl shadow-black/20 bg-black rounded-full text-white flex items-center justify-center">
+                  <iconify-icon
+                    height="30"
+                    width="30"
+                    icon="solar:bag-3-outline"
+                  ></iconify-icon>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {orderModal && (
+            <div className="fixed inset-0 h-full w-full bg-black/50 flex justify-end">
+              <div className="w-full lg:w-[500px] bg-white h-full overflow-auto pb-8">
+                <div className="p-8">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-xl lg:text-2xl font-jost">
+                      Create order
+                    </h2>
+                    <button onClick={() => setOrderModal(false)}>
+                      <iconify-icon
+                        height="20"
+                        width="20"
+                        icon="uiw:close"
+                      ></iconify-icon>
+                    </button>
+                  </div>
+                  <div className="flex items-center mt-2 space-x-2">
+                    <iconify-icon icon="ep:right"></iconify-icon>
+                    <p className="text-xs text-neutral-500 w-fit">
+                      Inventory is managed by distributed CDN
+                    </p>
+                  </div>
+
+                  <div className="mt-10">
+                    <button
+                      onClick={() => setChooseProduct(true)}
+                      className="flex items-center justify-center space-x-3 text-sm rounded bg-neutral-100 hover:bg-neutral-200 w-full py-3"
+                    >
+                      <iconify-icon
+                        height="20"
+                        width="20"
+                        icon="material-symbols:add-shopping-cart-rounded"
+                      ></iconify-icon>
+                      <span>Add product to cart</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {chooseProduct && (
+            <div className="fixed inset-0 h-full w-full bg-black/50">
+              <div className="fixed inset-0 h-full w-full bg-black/50 flex justify-end">
+                <div className="w-full lg:w-[500px] bg-white h-full overflow-auto pb-8">
+                  <div className="p-8">
+                    <div className="flex items-center justify-between">
+                      <h2 className="text-xl lg:text-2xl font-jost">
+                        Choose products
+                      </h2>
+                      <button onClick={() => setChooseProduct(false)}>
+                        <iconify-icon
+                          height="20"
+                          width="20"
+                          icon="uiw:close"
+                        ></iconify-icon>
+                      </button>
+                    </div>
+                    <div className="flex items-center mt-2 space-x-2">
+                      <iconify-icon icon="ep:right"></iconify-icon>
+                      <p className="text-xs text-neutral-500 w-fit">
+                        Inventory is managed by distributed CDN
+                      </p>
+                    </div>
+
+                    <div className="mt-10">
+                      <input
+                        type="text"
+                        placeholder="Search products"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="px-5 py-3 w-full border focus-within:border-black outline-none lg:text-sm"
+                        name=""
+                        id=""
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-1 mt-8 gap-5">
+                      {searchResults.map((product) => {
+                        return ProductCard(product);
+                      })}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
