@@ -152,7 +152,7 @@ function Dashboard() {
                     ></iconify-icon>
                     <span className="text-sm">{products.length} products</span>
                   </div>
-                  <button className="w-fit ml-auto px-6 h-12 flex items-center space-x-3 justify-center bg-black rounded-md text-white">
+                  <button className="w-fit text-sm ml-auto px-6 h-12 flex items-center space-x-3 justify-center bg-black rounded-md text-white">
                     <iconify-icon
                       height="24"
                       width="24"
