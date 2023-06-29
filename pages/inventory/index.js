@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 /* eslint-disable react-hooks/exhaustive-deps */
+import InventoryProductCard from "@/components/InventoryProductCard";
 import Navbar from "@/components/Navbar";
 import GlobalStates from "@/context/GlobalStateContext";
 import connectDatabase from "@/db/connect";
@@ -80,62 +81,7 @@ function Dashboard() {
             <div className="px-0 lg:px-24 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 lg:gap-5 lg:mt-10">
               {products.length > 0 &&
                 products.map((product, i) => {
-                  return (
-                    <Link key={i} href={`/inventory/p/${product.pid}`}>
-                      <div key={i} className="border-b border-r lg:border">
-                        <div className="h-36 bg-yellow-100 relative overflow-hidden">
-                          <img
-                            src={product.images[0]}
-                            alt=""
-                            className="absolute inset-0 w-full"
-                          />
-                        </div>
-                        <div className="p-3">
-                          <span className="text-xs text-neutral-500">
-                            {product.pid}
-                          </span>
-                          <h1 className="text-base font-bold mt-2">
-                            ₹ {product.sellingPrice || 0}
-                          </h1>
-                          <h2 className="text-sm mt-1">
-                            {product.name || "No name provided"}
-                          </h2>
-                          <div className="mt-4 grid grid-cols-3 text-xs">
-                            <div className="flex items-center">
-                              <span className="text-blue-600 mt-1">
-                                <iconify-icon icon="bi:box"></iconify-icon>
-                              </span>
-                              <span className="ml-2 text-sm">
-                                {product.stockQuantity || 0}
-                              </span>
-                            </div>
-                            <div className="flex items-center">
-                              <span className="text-sm text-red-700">
-                                ₹{product.purchasePrice || 0}
-                              </span>
-                            </div>
-                            <div className="flex items-center">
-                              <span className="text-green-600">
-                                <iconify-icon icon="bi:caret-up-fill"></iconify-icon>
-                              </span>
-                              <span className="ml-2 text-sm">
-                                {
-                                  // calculate profit percentage
-
-                                  Math.round(
-                                    ((product.sellingPrice -
-                                      product.purchasePrice) /
-                                      product.purchasePrice) *
-                                      100
-                                  ) + "%"
-                                }
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </Link>
-                  );
+                  return <InventoryProductCard key={i} product={product} />;
                 })}
             </div>
             {addmodal == false && (
