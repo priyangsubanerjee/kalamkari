@@ -14,11 +14,13 @@ function Orders() {
     changeStatus,
     invoices,
     refreshInvoices,
+    refreshProducts,
   } = useContext(GlobalStates);
+  const [productsCopy, setProductsCopy] = useState([]);
   const [orderModal, setOrderModal] = useState(false);
   const [chooseProduct, setChooseProduct] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState(products || []);
+  const [searchResults, setSearchResults] = useState([]);
   const [cart, setCart] = useState([]);
   const [inv, setInv] = useState("");
   const [invoiceOptions, setInvoiceOptions] = useState({
@@ -40,7 +42,6 @@ function Orders() {
 
   useEffect(() => {
     if (searchQuery == "") {
-      setSearchResults(products);
       return;
     } else {
       let results = products.filter(
@@ -70,15 +71,29 @@ function Orders() {
     }
   }, [cart]);
 
+  useEffect(() => {
+    (async () => {
+      let res = await refreshProducts();
+      setSearchResults(res);
+      setProductsCopy(res);
+    })();
+  }, [chooseProduct]);
+
   const ProductCard = (product) => {
     return (
       <div className="flex">
         <img
           src={product.images[0]}
-          className="h-24 w-24 object-cover"
+          className="h-24 w-24 object-cover "
           alt=""
         />
-        <div className="ml-4">
+        <div className="ml-4 relative">
+          {product.stockQuantity == 0 && (
+            <div className="absolute inset-0 h-full w-full bg-white text-sm justify-center flex flex-col">
+              <p className="text-red-500">Out of stock</p>
+              <p className="mt-5 font-medium">₹{product.sellingPrice}</p>
+            </div>
+          )}
           <span className="text-xs text-neutral-700">
             {product.pid} - ₹{product.sellingPrice}
           </span>
@@ -86,24 +101,30 @@ function Orders() {
           <div className="flex items-center mt-3">
             <button
               onClick={() => {
-                if (cart.filter((item) => item.pid == product.pid).length > 0) {
-                  let cartImage = cart.map((item) => {
-                    if (item.pid == product.pid) {
-                      item.quantity = item.quantity + 1;
-                    }
-                    return item;
-                  });
-                  setCart(cartImage);
-                } else {
-                  let cartImage = [...cart];
-                  cartImage.push({
-                    pid: product.pid,
-                    name: product.name,
-                    price: product.sellingPrice,
-                    image: product.images[0],
-                    quantity: 1,
-                  });
-                  setCart(cartImage);
+                if (product.stockQuantity > 0) {
+                  if (
+                    cart.filter((item) => item.pid == product.pid).length > 0
+                  ) {
+                    let cartImage = cart.map((item) => {
+                      if (item.pid == product.pid) {
+                        if (item.quantity < product.stockQuantity) {
+                          item.quantity = item.quantity + 1;
+                        }
+                      }
+                      return item;
+                    });
+                    setCart(cartImage);
+                  } else {
+                    let cartImage = [...cart];
+                    cartImage.push({
+                      pid: product.pid,
+                      name: product.name,
+                      price: product.sellingPrice,
+                      image: product.images[0],
+                      quantity: 1,
+                    });
+                    setCart(cartImage);
+                  }
                 }
               }}
               className="px-4 h-8 bg-neutral-100 hover:bg-neutral-200 flex items-center justify-center"
@@ -176,9 +197,10 @@ function Orders() {
     });
     const invoice = await response.json();
     if (invoice.success) {
+      await refreshInvoices();
+      await refreshProducts();
       setLoading(false);
       setInv(invoice.data.inv);
-      refreshInvoices();
     } else {
       setLoading(false);
     }
@@ -207,13 +229,23 @@ function Orders() {
               </thead>
               <tbody>
                 {invoices &&
-                  invoices.length &&
                   invoices.map((invoice, i) => {
                     return <InvoiceCard key={i} invoice={invoice} />;
                   })}
               </tbody>
             </table>
           </div>
+
+          {invoices && invoices.length == 0 && (
+            <div className="flex flex-col items-center space-y-7 w-full mt-16">
+              <img
+                src="https://media.istockphoto.com/id/861576608/vector/empty-shopping-bag-icon-online-business-vector-icon-template.jpg?s=170667a&w=0&k=20&c=gEwKNDAlip0HNDoRsG0qHY2TSvJAZmaRw43IUbEqxMM="
+                alt=""
+                className="h-60"
+              />
+              <p className="font-jost">No invoices found</p>
+            </div>
+          )}
 
           {orderModal == false && (
             <div>
@@ -472,12 +504,6 @@ function Orders() {
                       </select>
                     </div>
                     <div className="mt-10 flex items-center justify-between">
-                      <button
-                        onClick={() => handleGenerateInvoice()}
-                        className="w-fit text-sm ml-auto px-6 h-12 flex items-center space-x-3 justify-center bg-black rounded-md text-white"
-                      >
-                        <span>Generate invoice</span>
-                      </button>
                       <button
                         onClick={() => handleGenerateInvoice()}
                         className="w-fit text-sm ml-auto px-6 h-12 flex items-center space-x-3 justify-center bg-black rounded-md text-white"

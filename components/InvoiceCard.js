@@ -5,7 +5,7 @@ import Link from "next/link";
 import GlobalStates from "@/context/GlobalStateContext";
 
 function InvoiceCard({ invoice }) {
-  const { setLoading, changeStatus, refreshInvoices } =
+  const { setLoading, changeStatus, refreshInvoices, refreshProducts } =
     useContext(GlobalStates);
   const [invoiceOptions, setInvoiceOptions] = useState(invoice);
   const [productsOpen, setProductsOpen] = useState(false);
@@ -20,14 +20,16 @@ function InvoiceCard({ invoice }) {
         method: "POST",
         body: JSON.stringify({
           id: invoice._id,
+          products: invoice.products,
         }),
       });
 
       let invoice_ = await response.json();
       setLoading(false);
       if (invoice_.success) {
+        await refreshInvoices();
+        await refreshProducts();
         setUpadted(true);
-        refreshInvoices();
       }
     }
   };

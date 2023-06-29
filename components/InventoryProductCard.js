@@ -31,6 +31,7 @@ function InventoryProductCard({ product }) {
         name: productCopy.name,
         purchasePrice: productCopy.purchasePrice,
         purchaseQuantity: productCopy.purchaseQuantity,
+        stockQuantity: productCopy.stockQuantity,
         purchasedFrom: productCopy.purchasedFrom,
         sellingPrice: productCopy.sellingPrice,
         shelfLocation: productCopy.shelfLocation,
@@ -359,6 +360,29 @@ function InventoryProductCard({ product }) {
                           setProductCopy({
                             ...productCopy,
                             purchaseQuantity: e.target.value,
+                          });
+                        }}
+                        placeholder="10"
+                        className="h-14 bg-transparent border mt-2 w-full px-5 border-neutral-200 rounded focus:outline-none focus:border-neutral-500"
+                        name=""
+                        id=""
+                      />
+                    </div>
+                    <div className="mt-5">
+                      <label
+                        htmlFor=""
+                        className="text-xs text-neutral-600 block"
+                      >
+                        Qty in stock
+                      </label>
+                      <input
+                        type="tel"
+                        value={productCopy.stockQuantity}
+                        readOnly={readOnly}
+                        onChange={(e) => {
+                          setProductCopy({
+                            ...productCopy,
+                            stockQuantity: e.target.value,
                           });
                         }}
                         placeholder="10"

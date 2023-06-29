@@ -40,6 +40,7 @@ export default function App({ Component, pageProps }) {
     });
     let data = await res.json();
     setProducts(data);
+    return data.data;
   };
 
   const refreshInvoices = async () => {
