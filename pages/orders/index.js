@@ -615,10 +615,33 @@ function Orders() {
                       Invoice has been generated successfully.
                     </p>
                     <div className="mt-10 grid grid-cols-2 w-full gap-2">
-                      <button className="border hover:bg-neutral-200 h-12 text-sm">
+                      <button
+                        onClick={() => {
+                          // copy inv to clipboard
+                          let address =
+                            "https://kalamkari.vercel.app/orders/invoice/" +
+                            inv;
+                          navigator.clipboard.writeText(address);
+                        }}
+                        className="border hover:bg-neutral-200 h-12 text-sm"
+                      >
                         Copy link
                       </button>
-                      <button className="border bg-neutral-800 text-white hover:bg-neutral-900 h-12 text-sm">
+                      <button
+                        onClick={() => {
+                          let address =
+                            "https://kalamkari.vercel.app/orders/invoice/" +
+                            inv;
+
+                          // share address
+                          navigator.share({
+                            title: "Kalamkari invoice",
+                            text: "Invoice for order " + inv,
+                            url: address,
+                          });
+                        }}
+                        className="border bg-neutral-800 text-white hover:bg-neutral-900 h-12 text-sm"
+                      >
                         Share invoice
                       </button>
                     </div>
