@@ -12,6 +12,26 @@ function InvoiceCard({ invoice }) {
   const [editOpen, setEditOpen] = useState(false);
   const [updated, setUpadted] = useState(false);
 
+  const handleDelete = async () => {
+    if (window.confirm("Are you sure you want to delete this invoice?")) {
+      setLoading(true);
+      changeStatus("Deleting invoice");
+      let response = await fetch("/api/orders/delete", {
+        method: "POST",
+        body: JSON.stringify({
+          id: invoice._id,
+        }),
+      });
+
+      let invoice_ = await response.json();
+      setLoading(false);
+      if (invoice_.success) {
+        setUpadted(true);
+        refreshInvoices();
+      }
+    }
+  };
+
   const handleSaveInvoice = async () => {
     setLoading(true);
     changeStatus("Updating invoice");
@@ -319,6 +339,17 @@ function InvoiceCard({ invoice }) {
                       </select>
                     </div>
                     <div className="mt-10 flex items-center">
+                      <button
+                        onClick={() => handleDelete()}
+                        className="flex items-center space-x-2 px-6 h-12 bg-red-50 hover:bg-red-100 text-red-500 text-sm rounded-md transition-all"
+                      >
+                        <iconify-icon
+                          height="16"
+                          width="16"
+                          icon="uiw:delete"
+                        ></iconify-icon>
+                        <span className="text-sm">Delete</span>
+                      </button>
                       <button
                         onClick={() => handleSaveInvoice()}
                         className="text-sm w-fit ml-auto px-6 h-12 flex items-center space-x-3 justify-center bg-black rounded-md text-white"

@@ -471,10 +471,16 @@ function Orders() {
                         <option value="c/d cards">Credit / Debit cards</option>
                       </select>
                     </div>
-                    <div className="mt-10 flex items-center">
+                    <div className="mt-10 flex items-center justify-between">
                       <button
                         onClick={() => handleGenerateInvoice()}
-                        className="w-fit ml-auto px-6 h-12 flex items-center space-x-3 justify-center bg-black rounded-md text-white"
+                        className="w-fit text-sm ml-auto px-6 h-12 flex items-center space-x-3 justify-center bg-black rounded-md text-white"
+                      >
+                        <span>Generate invoice</span>
+                      </button>
+                      <button
+                        onClick={() => handleGenerateInvoice()}
+                        className="w-fit text-sm ml-auto px-6 h-12 flex items-center space-x-3 justify-center bg-black rounded-md text-white"
                       >
                         <span>Generate invoice</span>
                       </button>

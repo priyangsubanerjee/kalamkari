@@ -84,6 +84,17 @@ function Dashboard() {
                   return <InventoryProductCard key={i} product={product} />;
                 })}
             </div>
+
+            {products.length == 0 && (
+              <div className="flex flex-col items-center space-y-7 w-full">
+                <img
+                  src="https://media.istockphoto.com/id/861576608/vector/empty-shopping-bag-icon-online-business-vector-icon-template.jpg?s=170667a&w=0&k=20&c=gEwKNDAlip0HNDoRsG0qHY2TSvJAZmaRw43IUbEqxMM="
+                  alt=""
+                  className="h-60"
+                />
+                <p className="font-jost">No products found</p>
+              </div>
+            )}
             {addmodal == false && (
               <div>
                 <div className="flex lg:hidden fixed items-center bottom-0 inset-x-0 p-4 border-t bg-neutral-50 z-10">

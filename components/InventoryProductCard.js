@@ -45,6 +45,25 @@ function InventoryProductCard({ product }) {
     }
   };
 
+  const handleDelete = async () => {
+    if (window.confirm("Are you sure you want to delete this product?")) {
+      setLoading(true);
+      changeStatus("Deleting product");
+      const res = await fetch("/api/product/delete", {
+        method: "POST",
+        body: JSON.stringify({
+          id: productCopy._id,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setLoading(false);
+        refreshProducts();
+        setReadOnly(true);
+      }
+    }
+  };
+
   useEffect(() => {
     if (readOnly == false) {
       nameRef.current && nameRef.current.focus();
@@ -443,7 +462,10 @@ function InventoryProductCard({ product }) {
                     {readOnly == true && (
                       <div>
                         <div className="flex items-center mt-16">
-                          <button className="flex items-center space-x-2 px-6 h-12 bg-red-50 hover:bg-red-100 text-red-500 text-sm rounded-md transition-all">
+                          <button
+                            onClick={() => handleDelete()}
+                            className="flex items-center space-x-2 px-6 h-12 bg-red-50 hover:bg-red-100 text-red-500 text-sm rounded-md transition-all"
+                          >
                             <iconify-icon
                               height="16"
                               width="16"
