@@ -28,7 +28,20 @@ const navmenu = [
   {
     name: "Sales",
     path: "/sales",
-    icon: <iconify-icon icon="solar:wallet-outline"></iconify-icon>,
+    icon: (
+      <iconify-icon
+        height="17"
+        width="17"
+        icon="solar:wallet-outline"
+      ></iconify-icon>
+    ),
+  },
+  {
+    name: "Account",
+    path: "/account",
+    icon: (
+      <iconify-icon height="18" width="18" icon="iconoir:user"></iconify-icon>
+    ),
   },
 ];
 
