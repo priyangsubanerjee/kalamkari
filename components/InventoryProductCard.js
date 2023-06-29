@@ -331,7 +331,7 @@ function InventoryProductCard({ product }) {
                       </label>
                       <input
                         type="tel"
-                        readOnly={readOnly}
+                        readOnly={true}
                         placeholder="2000"
                         value={productCopy.purchasePrice}
                         onChange={(e) => {
@@ -355,7 +355,7 @@ function InventoryProductCard({ product }) {
                       <input
                         type="tel"
                         value={productCopy.purchaseQuantity}
-                        readOnly={readOnly}
+                        readOnly={true}
                         onChange={(e) => {
                           setProductCopy({
                             ...productCopy,
