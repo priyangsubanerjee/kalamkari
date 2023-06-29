@@ -13,12 +13,14 @@ function Navbar() {
   return (
     <nav>
       <div className="border-b flex items-center px-6 lg:px-24 h-16 lg:h-20">
-        <div onClick={() => location.reload()}>
-          <h1 className="text-xl lg:text-2xl font-jost">Kalamkari</h1>
-          <p className="text-xs lg:text-sm mt-1 text-neutral-500 lg:block">
-            Inventory management system
-          </p>
-        </div>
+        <Link href={"/inventory"}>
+          <div>
+            <h1 className="text-xl lg:text-2xl font-jost">Kalamkari</h1>
+            <p className="text-xs lg:text-sm mt-1 text-neutral-500 lg:block">
+              Inventory management system
+            </p>
+          </div>
+        </Link>
         {authState == "authenticated" && (
           <ul className="hidden text-sm lg:flex items-center space-x-4 ml-20">
             {navmenu.map((item, i) => {
