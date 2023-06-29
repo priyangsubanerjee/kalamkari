@@ -77,7 +77,7 @@ function InventoryProductCard({ product }) {
         onClick={() => setEditOpen(true)}
         className="border-b border-r lg:border"
       >
-        <div className="h-36 bg-yellow-100 relative overflow-hidden">
+        <div className="h-36 bg-neutral-100 relative overflow-hidden">
           <img
             src={product.images[0]}
             alt=""

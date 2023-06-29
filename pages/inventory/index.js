@@ -420,7 +420,7 @@ function Dashboard() {
                     </button>
                     <button
                       onClick={() => handleSaveProduct()}
-                      className="w-fit ml-auto px-6 h-12 flex items-center space-x-3 justify-center bg-black rounded-md text-white"
+                      className="w-fit text-sm ml-auto px-6 h-12 flex items-center space-x-3 justify-center bg-black rounded-md text-white"
                     >
                       <span>Save product</span>
                     </button>
