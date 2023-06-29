@@ -633,7 +633,6 @@ function Orders() {
                             "https://kalamkari.vercel.app/orders/invoice/" +
                             inv;
 
-                          // share address
                           navigator.share({
                             title: "Kalamkari invoice",
                             text: "Invoice for order " + inv,
