@@ -18,7 +18,7 @@ function Account() {
     <div>
       <Navbar />
       {user != null && user != false && (
-        <div className="lg:px-28 px-0 mt-6 lg:mt-10 whitespace-nowrap overflow-auto shrink-0">
+        <div className="lg:px-28 px-6 mt-6 lg:mt-10 whitespace-nowrap overflow-auto shrink-0">
           <div>{user.email}</div>
           <button
             onClick={() => {
