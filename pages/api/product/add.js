@@ -1,5 +1,6 @@
 import connectDatabase from "@/db/connect";
 import product from "@/db/product";
+import sale from "@/db/sale";
 
 export default async function handler(req, res) {
   await connectDatabase();
@@ -26,11 +27,24 @@ export default async function handler(req, res) {
     });
     const savedProduct = await product_.save();
     if (savedProduct) {
-      res.status(200).json({
-        success: true,
-        message: "Product added successfully",
-        data: product,
+      const sales_ = new sale({
+        type: "purchase",
+        amount: purchasePrice * purchaseQuantity,
       });
+      const savedSale = await sales_.save();
+      if (savedSale) {
+        res.status(200).json({
+          success: true,
+          message: "Product added successfully",
+          data: product,
+        });
+      } else {
+        res.status(200).json({
+          success: false,
+          message: "Product could not be added",
+          data: null,
+        });
+      }
     } else {
       res.status(200).json({
         success: false,

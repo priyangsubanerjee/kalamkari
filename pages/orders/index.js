@@ -15,6 +15,7 @@ function Orders() {
     invoices,
     refreshInvoices,
     refreshProducts,
+    refreshSales,
   } = useContext(GlobalStates);
   const [productsCopy, setProductsCopy] = useState([]);
   const [orderModal, setOrderModal] = useState(false);
@@ -199,6 +200,7 @@ function Orders() {
     if (invoice.success) {
       await refreshInvoices();
       await refreshProducts();
+      await refreshSales();
       setLoading(false);
       setInv(invoice.data.inv);
     } else {

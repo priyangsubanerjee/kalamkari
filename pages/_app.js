@@ -13,6 +13,7 @@ export default function App({ Component, pageProps }) {
   const [status, setStatus] = useState("Loading");
   const [products, setProducts] = useState([]);
   const [invoices, setInvoices] = useState([]);
+  const [sales, setSales] = useState([]);
 
   const changeStatus = (status) => {
     setStatus(status);
@@ -51,16 +52,14 @@ export default function App({ Component, pageProps }) {
     setInvoices(data);
   };
 
-  useEffect(() => {
-    (async () => {
-      await refreshProducts();
-      await refreshInvoices();
-    })();
-  }, []);
-
-  useEffect(() => {
-    revaliateUser();
-  }, []);
+  const refreshSales = async () => {
+    let res = await fetch("/api/sales/sales", {
+      method: "GET",
+    });
+    let data = await res.json();
+    setSales(data);
+    return data.data;
+  };
 
   const revaliateUser = async () => {
     if (!sessionStorage.getItem("user")) {
@@ -108,6 +107,18 @@ export default function App({ Component, pageProps }) {
     }
   };
 
+  useEffect(() => {
+    (async () => {
+      await refreshProducts();
+      await refreshInvoices();
+      await refreshSales();
+    })();
+  }, []);
+
+  useEffect(() => {
+    revaliateUser();
+  }, []);
+
   return (
     <GlobalStates.Provider
       value={{
@@ -118,9 +129,11 @@ export default function App({ Component, pageProps }) {
         changeStatus,
         products: products.data,
         invoices: invoices.data,
+        sales: sales.data,
         refreshProducts,
         revaliateUser,
         refreshInvoices,
+        refreshSales,
         authState,
       }}
     >

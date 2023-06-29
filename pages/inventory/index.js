@@ -3,22 +3,19 @@
 import InventoryProductCard from "@/components/InventoryProductCard";
 import Navbar from "@/components/Navbar";
 import GlobalStates from "@/context/GlobalStateContext";
-import connectDatabase from "@/db/connect";
-import product from "@/db/product";
 import { uploadFileArray } from "@/helper/asset";
 import Head from "next/head";
-import Link from "next/link";
 import React, { useContext, useEffect, useRef, useState } from "react";
 
 function Dashboard() {
   const {
     user,
     setUser,
-    handleLogin,
     setLoading,
     changeStatus,
     products = [],
     refreshProducts,
+    refreshSales,
   } = useContext(GlobalStates);
   const [addmodal, setAddmodal] = useState(false);
   const [productAdded, setProductAdded] = useState(false);
@@ -64,8 +61,9 @@ function Dashboard() {
     const data = await response.json();
     setLoading(false);
     if (data.success) {
+      await refreshProducts();
+      await refreshSales();
       setProductAdded(true);
-      refreshProducts();
     }
   };
 
