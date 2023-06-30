@@ -37,7 +37,7 @@ export default async function handler(req, res) {
           res.status(200).json({
             success: true,
             message: "Product added successfully",
-            data: product,
+            data: savedProduct,
           });
         } else {
           res.status(200).json({
@@ -50,7 +50,7 @@ export default async function handler(req, res) {
         res.status(200).json({
           success: true,
           message: "Product added successfully",
-          data: product,
+          data: savedProduct,
         });
       }
     } else {

@@ -4,6 +4,7 @@ import InventoryProductCard from "@/components/InventoryProductCard";
 import Navbar from "@/components/Navbar";
 import GlobalStates from "@/context/GlobalStateContext";
 import { uploadFileArray } from "@/helper/asset";
+import { set } from "mongoose";
 import Head from "next/head";
 import React, { useContext, useEffect, useRef, useState } from "react";
 
@@ -29,6 +30,7 @@ function Dashboard() {
     sellingPrice: "",
     shelfLocation: "",
   });
+  const [id, setId] = useState("");
 
   useEffect(() => {
     if (sessionStorage.getItem("user")) {
@@ -42,6 +44,12 @@ function Dashboard() {
     if (optProduct.images.length == 0)
       return alert("Please add atleast one image");
 
+    if (optProduct.purchaseQuantity > 0) {
+      if (optProduct.purchasePrice == "") {
+        alert("Provide purchase price");
+        return;
+      }
+    }
     setLoading(true);
     const links = await uploadFileArray(optProduct.images, changeStatus);
     changeStatus("Saving product data");
@@ -61,6 +69,7 @@ function Dashboard() {
     const data = await response.json();
     setLoading(false);
     if (data.success) {
+      setId(data.data.pid);
       await refreshProducts();
       await refreshSales();
       setProductAdded(true);
@@ -141,7 +150,12 @@ function Dashboard() {
                 <h2 className="text-xl lg:text-2xl font-jost">
                   Add product to inventory
                 </h2>
-                <button onClick={() => setAddmodal(false)}>
+                <button
+                  onClick={() => {
+                    setAddmodal(false);
+                    setId("");
+                  }}
+                >
                   <iconify-icon
                     height="20"
                     width="20"
@@ -164,7 +178,7 @@ function Dashboard() {
                     className="h-20"
                     alt=""
                   />
-                  <h2 className="font-medium mt-6 text-neutral-800">Success</h2>
+                  <h2 className="font-medium mt-6 text-neutral-800">{id}</h2>
                   <p className="text-xs text-neutral-600 mt-2">
                     Product has been added successfully.
                   </p>
