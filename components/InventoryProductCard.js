@@ -435,7 +435,7 @@ function InventoryProductCard({ product }) {
                       <div className="mt-5 flex items-center justify-end">
                         <button
                           onClick={() => setReStockOpen(true)}
-                          className="h-12 space-x-2 bg-blue-500 border mt-2 w-fit px-5 border-blue-600 rounded flex items-center text-sm text-white"
+                          className="h-12 space-x-2 bg-neutral-100 hover:bg-neutral-200 mt-2 w-fit px-5 rounded flex items-center text-sm text-black"
                         >
                           <iconify-icon
                             height="24"
