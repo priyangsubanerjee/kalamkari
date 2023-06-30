@@ -85,7 +85,7 @@ function Dashboard() {
       <>
         {user !== null && user !== false && (
           <>
-            <div className="px-0 lg:px-24 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 lg:gap-5 lg:mt-10">
+            <div className="px-0 lg:px-24 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 lg:gap-5 lg:mt-10 pb-24 lg:pb-10">
               {products.length > 0 &&
                 products.map((product, i) => {
                   return <InventoryProductCard key={i} product={product} />;
