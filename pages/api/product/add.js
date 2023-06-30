@@ -27,22 +27,30 @@ export default async function handler(req, res) {
     });
     const savedProduct = await product_.save();
     if (savedProduct) {
-      const sales_ = new sale({
-        type: "purchase",
-        amount: purchasePrice * purchaseQuantity,
-      });
-      const savedSale = await sales_.save();
-      if (savedSale) {
+      if (purchasePrice > 0 && purchaseQuantity > 0) {
+        const sales_ = new sale({
+          type: "purchase",
+          amount: purchasePrice * purchaseQuantity,
+        });
+        const savedSale = await sales_.save();
+        if (savedSale) {
+          res.status(200).json({
+            success: true,
+            message: "Product added successfully",
+            data: product,
+          });
+        } else {
+          res.status(200).json({
+            success: false,
+            message: "Product could not be added",
+            data: null,
+          });
+        }
+      } else {
         res.status(200).json({
           success: true,
           message: "Product added successfully",
           data: product,
-        });
-      } else {
-        res.status(200).json({
-          success: false,
-          message: "Product could not be added",
-          data: null,
         });
       }
     } else {
