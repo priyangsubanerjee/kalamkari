@@ -5,7 +5,7 @@ import { set } from "mongoose";
 import React, { useContext, useEffect, useRef, useState } from "react";
 
 function InventoryProductCard({ product }) {
-  const { setLoading, changeStatus, refreshProducts } =
+  const { setLoading, changeStatus, refreshProducts, refreshSales } =
     useContext(GlobalStates);
   const [editOpen, setEditOpen] = useState(false);
   const [productCopy, setProductCopy] = useState(product);
@@ -41,7 +41,8 @@ function InventoryProductCard({ product }) {
       setLoading(false);
       setReStockOpen(false);
       setReadOnly(true);
-      refreshProducts();
+      await refreshSales();
+      await refreshProducts();
       setProductCopy({
         ...productCopy,
         stockQuantity: parseInt(resStockOptions.quantity),

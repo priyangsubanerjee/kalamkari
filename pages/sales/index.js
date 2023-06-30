@@ -47,7 +47,7 @@ function Sales() {
       <Navbar />
       {user != null && user != false && (
         <div>
-          <div className="lg:px-28 px-0 mt-6 lg:mt-10 whitespace-nowrap overflow-auto shrink-0">
+          <div className="lg:px-28 px-0 mt-6 lg:mt-10 whitespace-nowrap overflow-auto shrink-0 pb-24">
             <div className="flex items-center space-x-3 lg:px-0 px-6">
               <div className="px-6 py-2 space-y-2 bg-red-50">
                 <h2 className="text-xs">Total purchase</h2>

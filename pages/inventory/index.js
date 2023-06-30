@@ -187,6 +187,7 @@ function Dashboard() {
                       onClick={() => {
                         setAddmodal(false);
                         setProductAdded(false);
+                        setId("");
                         setOptProduct({
                           images: [],
                           name: "",
@@ -204,6 +205,7 @@ function Dashboard() {
                     <button
                       onClick={() => {
                         setProductAdded(false);
+                        setId("");
                         setOptProduct({
                           images: [],
                           name: "",
