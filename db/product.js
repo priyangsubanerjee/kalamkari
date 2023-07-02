@@ -44,6 +44,9 @@ const productSchema = new Schema({
   shelfLocation: {
     type: String,
   },
+  purchaseDate: {
+    type: Date,
+  },
   dateAdded: {
     type: Date,
     default: Date.now(),

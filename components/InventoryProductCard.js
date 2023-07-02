@@ -5,6 +5,7 @@ import { set } from "mongoose";
 import React, { useContext, useEffect, useRef, useState } from "react";
 
 function InventoryProductCard({ product }) {
+  console.log(product);
   const { setLoading, changeStatus, refreshProducts, refreshSales } =
     useContext(GlobalStates);
   const [editOpen, setEditOpen] = useState(false);
@@ -72,6 +73,7 @@ function InventoryProductCard({ product }) {
         purchasedFrom: productCopy.purchasedFrom,
         sellingPrice: productCopy.sellingPrice,
         shelfLocation: productCopy.shelfLocation,
+        purchaseDate: productCopy.purchaseDate,
       }),
     });
     const data = await res.json();
@@ -399,6 +401,35 @@ function InventoryProductCard({ product }) {
                           setProductCopy({
                             ...productCopy,
                             purchaseQuantity: e.target.value,
+                          });
+                        }}
+                        placeholder="10"
+                        className="h-14 bg-transparent border mt-2 w-full px-5 border-neutral-200 rounded focus:outline-none focus:border-neutral-500"
+                        name=""
+                        id=""
+                      />
+                    </div>
+                    <div className="mt-5">
+                      <label
+                        htmlFor=""
+                        className="text-xs text-neutral-600 block"
+                      >
+                        Purchase date
+                      </label>
+                      <input
+                        type="date"
+                        value={
+                          productCopy.purchaseDate
+                            ? new Date(productCopy.purchaseDate || "")
+                                .toISOString()
+                                .split("T")[0]
+                            : ""
+                        }
+                        readOnly={readOnly}
+                        onChange={(e) => {
+                          setProductCopy({
+                            ...productCopy,
+                            purchaseDate: e.target.value,
                           });
                         }}
                         placeholder="10"

@@ -13,6 +13,7 @@ export default async function handler(req, res) {
     purchasedFrom,
     sellingPrice,
     shelfLocation,
+    purchaseDate,
   } = JSON.parse(req.body);
 
   const product_ = await product.findOneAndUpdate(
@@ -26,6 +27,7 @@ export default async function handler(req, res) {
       stockQuantity,
       purchasedFrom,
       sellingPrice,
+      purchaseDate,
       shelfLocation,
     }
   );

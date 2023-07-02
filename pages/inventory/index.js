@@ -26,6 +26,7 @@ function Dashboard() {
     name: "",
     purchasePrice: "",
     purchaseQuantity: "",
+    purchaseDate: "",
     purchasedFrom: "",
     sellingPrice: "",
     shelfLocation: "",
@@ -63,6 +64,7 @@ function Dashboard() {
         purchasedFrom: optProduct.purchasedFrom,
         sellingPrice: optProduct.sellingPrice,
         shelfLocation: optProduct.shelfLocation,
+        purchaseDate: optProduct.purchaseDate,
       }),
     });
 
@@ -349,6 +351,28 @@ function Dashboard() {
                         setOptProduct({
                           ...optProduct,
                           purchaseQuantity: e.target.value,
+                        });
+                      }}
+                      placeholder="10"
+                      className="h-14 bg-transparent border mt-2 w-full px-5 border-neutral-200 rounded focus:outline-none focus:border-neutral-500"
+                      name=""
+                      id=""
+                    />
+                  </div>
+                  <div className="mt-5">
+                    <label
+                      htmlFor=""
+                      className="text-xs text-neutral-600 block"
+                    >
+                      Purchase date
+                    </label>
+                    <input
+                      type="date"
+                      value={optProduct.purchaseDate}
+                      onChange={(e) => {
+                        setOptProduct({
+                          ...optProduct,
+                          purchaseDate: e.target.value,
                         });
                       }}
                       placeholder="10"

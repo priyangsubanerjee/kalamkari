@@ -12,6 +12,7 @@ export default async function handler(req, res) {
     purchasedFrom,
     sellingPrice,
     shelfLocation,
+    purchaseDate,
   } = JSON.parse(req.body);
 
   try {
@@ -24,6 +25,7 @@ export default async function handler(req, res) {
       purchasedFrom,
       sellingPrice,
       shelfLocation,
+      purchaseDate,
     });
     const savedProduct = await product_.save();
     if (savedProduct) {
