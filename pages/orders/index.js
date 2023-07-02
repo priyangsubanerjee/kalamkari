@@ -213,7 +213,7 @@ function Orders() {
       <Navbar />
       {user != null && user != false && (
         <div>
-          <div className="lg:px-28 px-0 lg:mt-10 whitespace-nowrap overflow-auto shrink-0">
+          <div className="lg:px-28 px-0 lg:mt-10 whitespace-nowrap overflow-auto shrink-0 pb-24">
             <table className="w-fit lg:w-full text-left">
               <thead className="bg-neutral-50">
                 <tr>
