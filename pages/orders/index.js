@@ -221,7 +221,8 @@ function Orders() {
                   <th className="font-normal px-5 py-4 text-sm">Date</th>
                   <th className="font-normal px-5 py-4 text-sm">Name</th>
                   <th className="font-normal px-5 py-4 text-sm">Products</th>
-                  <th className="font-normal px-5 py-4 text-sm">Amount</th>
+                  <th className="font-normal px-5 py-4 text-sm">Total</th>
+                  <th className="font-normal px-5 py-4 text-sm">Amount paid</th>
                   <th className="font-normal px-5 py-4 text-sm">
                     Payment status
                   </th>

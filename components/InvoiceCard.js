@@ -78,6 +78,7 @@ function InvoiceCard({ invoice }) {
           </button>
         </td>
         <td className="font-normal px-5 py-4 text-sm">₹{invoice.total}</td>
+        <td className="font-normal px-5 py-4 text-sm">₹{invoice.amountPaid}</td>
         <td className="font-normal px-5 py-4 text-sm flex items-center space-x-2">
           {invoice.status == "paid" ? (
             <span className="text-green-600">
