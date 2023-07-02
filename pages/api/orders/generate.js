@@ -26,7 +26,7 @@ export default async function handler(req, res) {
     });
     const sales_ = new sale({
       type: "sales",
-      amount: total,
+      amount: amountPaid,
     });
     const savedSale = await sales_.save();
     if (savedSale) {
