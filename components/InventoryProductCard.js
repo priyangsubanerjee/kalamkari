@@ -118,7 +118,9 @@ function InventoryProductCard({ product }) {
       >
         <div className="h-36 bg-neutral-100 relative overflow-hidden">
           <img
-            src={product.images[0]}
+            src={`https://drive.google.com/thumbnail?id=${new URL(
+              product.images[0]
+            ).searchParams.get("id")}&sz=w720-h1920`}
             alt=""
             className="absolute inset-0 w-full"
           />
@@ -268,7 +270,9 @@ function InventoryProductCard({ product }) {
                           >
                             <img
                               className="w-full h-full object-cover"
-                              src={image}
+                              src={`https://drive.google.com/thumbnail?id=${new URL(
+                                image
+                              ).searchParams.get("id")}&sz=w720-h1920`}
                               alt=""
                             />
                             {readOnly == false && (

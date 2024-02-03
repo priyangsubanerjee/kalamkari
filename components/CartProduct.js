@@ -5,7 +5,13 @@ function CartProduct({ product }) {
   return (
     <div className="grid grid-cols-3 border-b pb-4 gap-6 w-full">
       <div className="flex  items-center">
-        <img className="h-12 w-12 object-cover" src={product.image} alt="" />
+        <img
+          className="h-12 w-12 object-cover"
+          src={`https://drive.google.com/thumbnail?id=${new URL(
+            product.image
+          ).searchParams.get("id")}&sz=w720-h1920`}
+          alt=""
+        />
         <div className="ml-3">
           <p className="text-xs text-neutral-700">{product.pid}</p>
           <p className="text-xs mt-2  text-neutral-500">({product.name})</p>
